@@ -18,12 +18,12 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Welcome');
+});
+
+// ! Not Found 
+Route::fallback(function () {
+    return Inertia::render('NotFoundPage');
 });
 
 

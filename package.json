@@ -20,6 +20,16 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@material-tailwind/react": "^2.1.10"
+        "@fullcalendar/core": "^6.1.15",
+        "@heroicons/react": "^2.2.0",
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-react": "^0.8.1",
+        "@material-tailwind/react": "^2.1.10",
+        "@syncfusion/ej2-react-grids": "^28.2.3",
+        "@syncfusion/ej2-react-schedule": "^28.2.3",
+        "daisyui": "^4.12.23",
+        "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.15.10",
+        "sweetalert2-react-content": "^5.1.0"
     }
 }

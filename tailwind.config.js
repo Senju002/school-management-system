@@ -1,6 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 const withMT = require("@material-tailwind/react/utils/withMT");
 
+
 /** @type {import('tailwindcss').Config} */
 module.exports = withMT({
     content: [
@@ -22,11 +23,11 @@ module.exports = withMT({
                 desktop: { min: "1280px" }, // => @media (min-width: 1280px) { ... }
             },
             colors: {
-                primary: "#243F95", // Add your primary color
-                primaryHover: "#10DDFB",
-                secondary: "#B8E986", // Add your secondary color
-                textColor: "#E8E3E7",
-                bgColor: "#f5f5f5",
+                primary: "#034EA2", // Add your primary color
+                primaryHover: "#6838ee",
+                secondary: "#E8E3E7", // Add your secondary color
+                textColor: "#4E4D4B",
+                sidebar: "fff",
             },
         },
     },

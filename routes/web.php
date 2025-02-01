@@ -22,10 +22,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/register', function () {
-    return Inertia::render('Register');
-});
-
 // ! Not Found 
 Route::fallback(function () {
     return Inertia::render('NotFoundPage');

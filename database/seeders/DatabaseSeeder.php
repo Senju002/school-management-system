@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InstitutionTypeSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(InstitutionGroupSeeder::class);
+        $this->call(PositionSeeder::class);
+        $this->call(PositionGradeSeeder::class);
     }
 }

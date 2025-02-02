@@ -3,6 +3,7 @@ import InputError from "@/Components/InputError";
 import { Head, Link, useForm } from "@inertiajs/react";
 import MikrosilLogo from "@/../../public/images/logo_2.png";
 import { Button, Input, Typography } from "@material-tailwind/react";
+import CopyRightInformation from "@/Components/CopyRightInformation";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -116,17 +117,7 @@ export default function Login({ status, canResetPassword }) {
                     </form>
                 </div>
             </div>
-            <div className="flex justify-center items-center flex-col">
-                <Typography className="text-primary pt-10">
-                    Version 1.0
-                </Typography>
-                <Typography className="text-primary">
-                    © Universitas Mikroskil 2025
-                </Typography>
-                <Typography className="text-primary text-xs">
-                    Created by Ame & SenJu
-                </Typography>
-            </div>
+            <CopyRightInformation />
         </div>
     );
 }

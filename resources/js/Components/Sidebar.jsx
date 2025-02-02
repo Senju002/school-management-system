@@ -21,9 +21,10 @@ import {
     UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-import ApplicationLogo from "./ApplicationLogo";
+import UserIcon from "./UserIcon";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import CopyRightInformation from "./CopyRightInformation";
 
 const MySwal = withReactContent(Swal);
 export default function Sidebar({ user, classname, auth }) {
@@ -32,6 +33,9 @@ export default function Sidebar({ user, classname, auth }) {
     const handleOpen = (value) => {
         setOpenAccordion(openAccordion === value ? null : value);
     };
+    const listItemStyles =
+        "hover:bg-primary/80 hover:text-white text-textColor transition duration-500 ease-in-out";
+
     const logout = () => {
         MySwal.fire({
             title: "Logout?",
@@ -81,13 +85,16 @@ export default function Sidebar({ user, classname, auth }) {
         >
             <div className="mb-2 flex items-center flex-col text-textColor gap-4 p-4">
                 <Link>
-                    <ApplicationLogo className="bg-white p-3 rounded-2xl shadow-[0_1px_30px_#E8E3E7]" />
+                    <UserIcon />
                 </Link>
-                <Typography>{user}</Typography>
+                <Typography className="text-primary uppercase font-bold">
+                    <span className="text-black normal-case">Welcome,</span>{" "}
+                    {user}
+                </Typography>
             </div>
             <List>
                 <Link href="/dashboard">
-                    <ListItem className="hover:text-primary text-textColor ">
+                    <ListItem className={listItemStyles}>
                         <ListItemPrefix>
                             <HomeIcon className="h-5 w-5" />
                         </ListItemPrefix>
@@ -107,21 +114,17 @@ export default function Sidebar({ user, classname, auth }) {
                     }
                 >
                     <ListItem
-                        className="p-0 hover:text-primary "
+                        className={`${listItemStyles} p-0`}
                         selected={openAccordion === 1}
                     >
                         <AccordionHeader
                             onClick={() => handleOpen(1)}
-                            className="border-b-0 p-3 group text-textColor group-hover:text-primary"
+                            className="border-b-0 p-3 group hover:text-white"
                         >
                             <ListItemPrefix>
-                                <CircleStackIcon
-                                    fill="none"
-                                    stroke="black"
-                                    className="h-5 w-5 group-hover:text-primary"
-                                />
+                                <CircleStackIcon className="h-5 w-5" />
                             </ListItemPrefix>
-                            <Typography className="mr-auto font-normal text-textColor group-hover:text-primary">
+                            <Typography className="mr-auto font-normal ">
                                 System Management
                             </Typography>
                         </AccordionHeader>
@@ -129,7 +132,7 @@ export default function Sidebar({ user, classname, auth }) {
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
                             <Link href="/institusi  ">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -140,7 +143,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -151,7 +154,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -162,7 +165,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -173,7 +176,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -184,7 +187,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -210,21 +213,17 @@ export default function Sidebar({ user, classname, auth }) {
                     }
                 >
                     <ListItem
-                        className="p-0 hover:text-primary "
+                        className={`${listItemStyles} p-0`}
                         selected={openAccordion === 2}
                     >
                         <AccordionHeader
                             onClick={() => handleOpen(2)}
-                            className="border-b-0 p-3 group text-textColor group-hover:text-primary"
+                            className="border-b-0 p-3 group hover:text-white"
                         >
                             <ListItemPrefix>
-                                <CalendarDaysIcon
-                                    fill="none"
-                                    stroke="black"
-                                    className="h-5 w-5 group-hover:text-primary"
-                                />
+                                <CalendarDaysIcon className="h-5 w-5" />
                             </ListItemPrefix>
-                            <Typography className="mr-auto font-normal text-textColor group-hover:text-primary">
+                            <Typography className="mr-auto font-normal hover:text-white">
                                 Jadwal
                             </Typography>
                         </AccordionHeader>
@@ -232,7 +231,7 @@ export default function Sidebar({ user, classname, auth }) {
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
                             <Link href="/tipe-kelas">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -243,7 +242,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/daftar-kelas">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -269,21 +268,17 @@ export default function Sidebar({ user, classname, auth }) {
                     }
                 >
                     <ListItem
-                        className="p-0 hover:text-primary "
+                        className={`${listItemStyles} p-0`}
                         selected={openAccordion === 4}
                     >
                         <AccordionHeader
                             onClick={() => handleOpen(4)}
-                            className="border-b-0 p-3 group text-textColor group-hover:text-primary"
+                            className="border-b-0 p-3 group hover:text-white"
                         >
                             <ListItemPrefix>
-                                <BookOpenIcon
-                                    fill="none"
-                                    stroke="black"
-                                    className="h-5 w-5 group-hover:text-primary"
-                                />
+                                <BookOpenIcon className="h-5 w-5" />
                             </ListItemPrefix>
-                            <Typography className="mr-auto font-normal text-textColor group-hover:text-primary">
+                            <Typography className="mr-auto font-normal ">
                                 Berita Acara
                             </Typography>
                         </AccordionHeader>
@@ -291,7 +286,7 @@ export default function Sidebar({ user, classname, auth }) {
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
                             <Link href="/beritaacara_reguler">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -302,7 +297,7 @@ export default function Sidebar({ user, classname, auth }) {
                                 </ListItem>
                             </Link>
                             <Link href="/beritaacara_pengawas">
-                                <ListItem className="hover:text-primary ">
+                                <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
                                             strokeWidth={3}
@@ -317,7 +312,7 @@ export default function Sidebar({ user, classname, auth }) {
                 </Accordion>
 
                 <Link href="/home">
-                    <ListItem className="hover:text-primary text-textColor ">
+                    <ListItem className={listItemStyles}>
                         <ListItemPrefix>
                             <DocumentChartBarIcon className="h-5 w-5" />
                         </ListItemPrefix>
@@ -325,10 +320,10 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                 </Link>
 
-                <hr className="my-2 border-blue-gray-50" />
+                <hr className="my-2 border-primary/30" />
 
                 <Link>
-                    <ListItem className="hover:text-primary text-textColor ">
+                    <ListItem className={listItemStyles}>
                         <ListItemPrefix>
                             <UserCircleIcon className="h-5 w-5" />
                         </ListItemPrefix>
@@ -336,7 +331,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                 </Link>
                 <button onClick={logout}>
-                    <ListItem className="hover:text-primary text-textColor">
+                    <ListItem className={listItemStyles}>
                         <ListItemPrefix>
                             <PowerIcon className="h-5 w-5" />
                         </ListItemPrefix>
@@ -344,6 +339,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                 </button>
             </List>
+            <CopyRightInformation ClassName="p-10" />
         </Card>
     );
 }

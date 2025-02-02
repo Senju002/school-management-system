@@ -1,30 +1,6 @@
 import { useState } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import { Link } from "@inertiajs/react";
-import {
-    Card,
-    Typography,
-    List,
-    ListItem,
-    ListItemPrefix,
-    Accordion,
-    AccordionHeader,
-    AccordionBody,
-    Drawer,
-    IconButton,
-} from "@material-tailwind/react";
-import {
-    UserCircleIcon,
-    PowerIcon,
-    BuildingOffice2Icon,
-} from "@heroicons/react/24/solid";
-import {
-    ChevronRightIcon,
-    ChevronDownIcon,
-    CreditCardIcon,
-    Bars3Icon,
-    XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Drawer, IconButton } from "@material-tailwind/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Sidebar from "@/Components/Sidebar";
 
 export default function Authenticated({ auth, header, children }) {

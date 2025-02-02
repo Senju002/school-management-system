@@ -128,7 +128,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
-                            <Link href="/daftar-pegawai">
+                            <Link href="/institusi  ">
                                 <ListItem className="hover:text-primary ">
                                     <ListItemPrefix>
                                         <ChevronRightIcon

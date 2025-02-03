@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\InstitusiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +33,17 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/institusi', function () {
-    return Inertia::render('Institusi');
-})->middleware(['auth', 'verified'])->name('institusi');
 
+// Route::get('institusi', function () {
+//     return Inertia::render('Institusi/Institusi');
+// })->middleware(['auth', 'verified'])->name('institusi');
+
+
+// Route::get('/institusi', [InstitusiController::class, 'index'])->name('institusi');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/institusi', [InstitusiController::class, 'index'])->name('institusi');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

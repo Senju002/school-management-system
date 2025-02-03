@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('institution_types', function (Blueprint $table) {
-            $table->string('id')->primary(); // Use string as primary key
-            $table->string('class_grade');
+        Schema::create('institusi', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('institution_types');
+        Schema::dropIfExists('institusi');
     }
 };

@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JenisInstitusi extends Model {
+class InstitutionGroup extends Model {
     use HasFactory;
-    protected $table = 'jenis_institusi';
-    protected $fillable = ['kode_jenis_ins', 'nama_jenis_ins'];
+    protected $table = 'institution_group';
+    protected $fillable = ['ins_group_id', 'ins_group_name'];
 }
+

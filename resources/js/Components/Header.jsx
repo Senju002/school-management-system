@@ -5,7 +5,7 @@ import { Typography } from "@material-tailwind/react";
 const Header = ({ title }) => {
     return (
         <div className="flex justify-between p-5 items-center border-b-2">
-            <Typography className="text-primary text-2xl font-normal">
+            <Typography className="text-primary text-2xl font-normal font-bold">
                 {title}
             </Typography>
             <img src={MikrosilLogo} alt="#" className="h-8 object-cover" />

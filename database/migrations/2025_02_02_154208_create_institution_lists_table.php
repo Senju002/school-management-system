@@ -6,16 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::create('jenis_institusi', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_jenis_ins')->unique();
-            $table->string('nama_jenis_ins');
+        Schema::create('institution_lists', function (Blueprint $table) {
+            $table->string('ins_id')->unique();
+            $table->string('ins_name');
             $table->timestamps();
         });
     }
 
     public function down() {
-        Schema::dropIfExists('jenis_institusi');
+        Schema::dropIfExists('institution_lists');
     }
 };
 

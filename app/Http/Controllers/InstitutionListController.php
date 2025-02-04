@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DaftarInstitusi;
+use App\Models\InstitutionList;
 
-class DaftarInstitusiController extends Controller
+class InstitutionListController extends Controller
 {
     public function index()
     {
-        $daftarInstitusi = DaftarInstitusi::all();
+        $daftarInstitusi = InstitutionList::all();
 
         return response()->json($daftarInstitusi);
     }

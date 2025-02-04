@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GrupInstitusi;
+use App\Models\InstitutionGroup;
 
-class GroupInstitusiController extends Controller
+class InstitutionGroupController extends Controller
 {
     public function index()
     {
-        $groupInstitusi = GrupInstitusi::all();
+        $groupInstitusi = InstitutionGroup::all();
 
         return response()->json($groupInstitusi);
     }

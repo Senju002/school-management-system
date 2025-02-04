@@ -5,7 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\InstitusiController;
+use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\JenisInstitusiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,16 +34,14 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware(['auth'])->group(function () {
+    // Show the Institusi page
+    Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
 
-// Route::get('institusi', function () {
-//     return Inertia::render('Institusi/Institusi');
-// })->middleware(['auth', 'verified'])->name('institusi');
-
-
-// Route::get('/institusi', [InstitusiController::class, 'index'])->name('institusi');
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/institusi', [InstitusiController::class, 'index'])->name('institusi');
+    // Store new data for each table
+    Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
+    Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
+    Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
 });
 
 Route::middleware('auth')->group(function () {

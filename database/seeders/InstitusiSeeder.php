@@ -3,25 +3,25 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\JenisInstitusi;
-use App\Models\GrupInstitusi;
-use App\Models\DaftarInstitusi;
+use App\Models\InstitutionType;
+use App\Models\InstitutionGroup;
+use App\Models\InstitutionList;
 
 class InstitusiSeeder extends Seeder {
     public function run() {
         // Insert Jenis Institusi
-        JenisInstitusi::create(['kode_jenis_ins' => 'J001', 'nama_jenis_ins' => 'Sekolah Dasar']);
-        JenisInstitusi::create(['kode_jenis_ins' => 'J002', 'nama_jenis_ins' => 'Sekolah Menengah']);
-        JenisInstitusi::create(['kode_jenis_ins' => 'J003', 'nama_jenis_ins' => 'Perguruan Tinggi']);
+        InstitutionType::create(['ins_type_id' => 'J001', 'ins_type_name' => 'Sekolah Dasar']);
+        InstitutionType::create(['ins_type_id' => 'J002', 'ins_type_name' => 'Sekolah Menengah Pertama']);
+        InstitutionType::create(['ins_type_id' => 'J003', 'ins_type_name' => 'Sekolah Menengah Atas']);
 
         // Insert Group Institusi
-        GrupInstitusi::create(['kode_grup_ins' => 'G001', 'nama_grup_ins' => 'Negeri']);
-        GrupInstitusi::create(['kode_grup_ins' => 'G002', 'nama_grup_ins' => 'Swasta']);
-        GrupInstitusi::create(['kode_grup_ins' => 'G003', 'nama_grup_ins' => 'Internasional']);
+        InstitutionGroup::create(['ins_group_id' => 'G001', 'ins_group_name' => 'Sutomo']);
+        InstitutionGroup::create(['ins_group_id' => 'G002', 'ins_group_name' => 'Methodist']);
+        InstitutionGroup::create(['ins_group_id' => 'G003', 'ins_group_name' => 'Kalam Kudus']);
 
         // Insert Nama Institusi
-        DaftarInstitusi::create(['kode_ins' => 'I001', 'nama_ins' => 'SD Negeri 1']);
-        DaftarInstitusi::create(['kode_ins' => 'I002', 'nama_ins' => 'SMP Negeri 2']);
-        DaftarInstitusi::create(['kode_ins' => 'I003', 'nama_ins' => 'Universitas XYZ']);
+        InstitutionList::create(['ins_id' => 'I001', 'ins_name' => 'SD Sutomo']);
+        InstitutionList::create(['ins_id' => 'I002', 'ins_name' => 'SMP Sutomo']);
+        InstitutionList::create(['ins_id' => 'I003', 'ins_name' => 'Methodist 1']);
     }
 }

@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\JenisInstitusiController;
+use App\Http\Controllers\PositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::get('/', function () {
 
 // ! Not Found 
 Route::fallback(function () {
-    return Inertia::render('NotFoundPage');
+    return Inertia::render('Additional Page/NotFoundPage');
 });
 
 
@@ -42,6 +43,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
     Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
     Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
+});
+
+
+Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
+    Route::get('/position', [PositionController::class, "index"])->name('position.index');
 });
 
 Route::middleware('auth')->group(function () {

@@ -42,7 +42,7 @@ export default function Sidebar({ user, classname, auth }) {
             // text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#034EA2",
             cancelButtonColor: "#d33",
             confirmButtonText: "Ya, Logout!",
             cancelButtonText: "Tidak",
@@ -142,7 +142,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Institusi
                                 </ListItem>
                             </Link>
-                            <Link href="/level-pegawai">
+                            <Link href="/position">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

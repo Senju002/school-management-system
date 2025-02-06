@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InstitutionController;
-use App\Http\Controllers\JenisInstitusiController;
 use App\Http\Controllers\PositionController;
 
 /*
@@ -35,7 +34,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     // Show the Institusi page
     Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
 

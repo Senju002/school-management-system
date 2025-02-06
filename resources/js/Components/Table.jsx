@@ -40,7 +40,7 @@ const Table = ({ title, data, onAddClick, onEditClick }) => {
                 <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
                 <button
                     onClick={onAddClick}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition"
+                    className="px-4 py-2 bg-primary hover:bg-blue-700 text-white rounded-lg shadow-md transition"
                 >
                     + Add {title}
                 </button>
@@ -50,7 +50,7 @@ const Table = ({ title, data, onAddClick, onEditClick }) => {
             <div className="overflow-x-auto">
                 <table className="w-full table-fixed border-collapse rounded-lg overflow-hidden shadow-md">
                     <thead>
-                        <tr className="bg-blue-600 text-white">
+                        <tr className="bg-primary text-white">
                             {columns.map((col) => (
                                 <th
                                     key={col}
@@ -79,7 +79,7 @@ const Table = ({ title, data, onAddClick, onEditClick }) => {
                                 <td className="px-4 py-3 text-gray-700 border-b w-1/4 flex gap-2">
                                     <button
                                         onClick={() => onEditClick(row)}
-                                        className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                                        className="px-3 py-1 bg-primary text-white rounded hover:bg-blue-700 transition"
                                     >
                                         Edit
                                     </button>

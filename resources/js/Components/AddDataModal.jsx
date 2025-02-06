@@ -41,7 +41,7 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
                                 type="text"
                                 value={data[key] || ""}
                                 onChange={(e) => setData(prev => ({ ...prev, [key]: e.target.value }))}
-                                className="w-full p-2 border rounded focus:ring focus:ring-blue-300"
+                                className={`w-full p-2 border rounded focus:ring focus:ring-blue-300 ${isFieldDisabled(key) ? 'bg-gray-300' : ''}`} // Apply gray background when disabled
                                 required
                                 disabled={isFieldDisabled(key)}
                             />

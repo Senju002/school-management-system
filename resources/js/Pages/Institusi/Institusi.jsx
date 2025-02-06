@@ -1,4 +1,4 @@
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Table from "@/Components/Table";
 import Header from "@/Components/Header";
@@ -12,44 +12,62 @@ export default function Institusi({
     auth,
     errors,
 }) {
+    // State for managing modal visibility and title
     const [modalTitle, setModalTitle] = useState("");
     const [showModal, setShowModal] = useState(false);
 
-    // Define initial form state dynamically
+    // Define initial form templates for different types of institutions
     const formTemplates = {
-        "Jenis Institusi": {ins_type_id: "", ins_type_name: "" },
+        "Jenis Institusi": { ins_type_id: "", ins_type_name: "" },
         "Group Institusi": { ins_group_id: "", ins_group_name: "" },
         "Daftar Institusi": { ins_id: "", ins_name: "" },
     };
 
+    // useForm hook for handling form state and submission
     const { data, setData, post, processing, reset } = useForm({});
-    // Handle opening the modal with the correct form structure
+
+    // Handle the "Add" button click, opening the modal with an empty form
     const handleAddClick = (type) => {
         setModalTitle(type);
         setShowModal(true);
-        setData(formTemplates[type] || {});
+        setData(formTemplates[type] || {}); // Reset form for new entry
     };
 
-    // Define API endpoints dynamically
-    const apiEndpoints = {
-        "Jenis Institusi": "/institusi/jenis",
-        "Group Institusi": "/institusi/group",
-        "Daftar Institusi": "/institusi/daftar",
+    // Handle the "Edit" button click, opening the modal with existing data
+    const handleEditClick = (type, rowData) => {
+        setModalTitle(type);
+        setShowModal(true);
+        setData({ ...rowData }); // Prefill form with selected data
     };
-
-    // Handle form submission
+    
+    // Handle form submission for adding or updating data
     const handleSubmit = (e) => {
         e.preventDefault();
-        const url = apiEndpoints[modalTitle];
-        console.log("url", url);
-        console.log("data", data);
-        post(url, {
-            data,
-            onSuccess: () => {
-                reset();
-                setShowModal(false);
-            },
-        });
+        if (data.id) {
+            // Update existing data
+            router.put(route("institusi.updateJenis", { id: data.id }), data, {
+                onSuccess: () => {
+                    reset();
+                    setShowModal(false);
+                },
+                onError: (error) => {
+                    console.error("Update error:", error);
+                    alert("Update failed!");
+                },
+            });
+        } else {
+            // Insert new data
+            router.post(route("institusi.storeJenis"), data, {
+                onSuccess: () => {
+                    reset();
+                    setShowModal(false);
+                },
+                onError: (error) => {
+                    console.error("Insert error:", error);
+                    alert("Insert failed!");
+                },
+            });
+        }
     };
 
     return (
@@ -57,6 +75,7 @@ export default function Institusi({
             <Head title="Institusi" />
             <Header title="Institusi" />
             <div className="w-full px-4 mt-8">
+                {/* Render tables dynamically for different institution types */}
                 {[
                     { title: "Jenis Institusi", data: jenisInstitusi },
                     { title: "Group Institusi", data: groupInstitusi },
@@ -67,10 +86,11 @@ export default function Institusi({
                         title={table.title}
                         data={table.data}
                         onAddClick={() => handleAddClick(table.title)}
+                        onEditClick={(rowData) => handleEditClick(table.title, rowData)}
                     />
                 ))}
 
-                {/* Add Data Modal */}
+                {/* Modal for adding/editing data */}
                 {showModal && (
                     <AddDataModal
                         showModal={showModal}

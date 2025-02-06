@@ -58,6 +58,21 @@ class InstitutionController extends Controller
         return redirect()->back()->with('success', 'Institusi berhasil ditambah');
     }
 
+        // ✅ Update Jenis Institusi
+        public function updateGroup(Request $request, InstitutionGroup $id)
+        {
+            $validated = $request->validate([
+                'ins_group_id' => 'required|string|max:255',
+                'ins_group_name' => 'required|string|max:255',
+            ]); 
+    
+            $id->ins_group_id = $validated['ins_group_id'];
+            $id->ins_group_name = $validated['ins_group_name'];
+            $id->save();
+    
+            return redirect()->back()->with('success', 'Institusi berhasil ditambah');
+        }
+
     // ✅ Store new Group Institusi
     public function storeGroup(Request $request)
     {

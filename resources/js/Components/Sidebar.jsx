@@ -153,7 +153,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Jabatan
                                 </ListItem>
                             </Link>
-                            <Link href="/level-pegawai">
+                            <Link href="/daftar-user">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

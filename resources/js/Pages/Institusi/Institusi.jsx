@@ -39,36 +39,72 @@ export default function Institusi({
         setShowModal(true);
         setData({ ...rowData }); // Prefill form with selected data
     };
-    
+
     // Handle form submission for adding or updating data
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (data.id) {
-            // Update existing data
-            router.put(route("institusi.updateJenis", { id: data.id }), data, {
-                onSuccess: () => {
-                    reset();
-                    setShowModal(false);
-                },
-                onError: (error) => {
-                    console.error("Update error:", error);
-                    alert("Update failed!");
-                },
-            });
-        } else {
-            // Insert new data
-            router.post(route("institusi.storeJenis"), data, {
-                onSuccess: () => {
-                    reset();
-                    setShowModal(false);
-                },
-                onError: (error) => {
-                    console.error("Insert error:", error);
-                    alert("Insert failed!");
-                },
-            });
+    
+        let routeName = "";
+    
+        // Dynamically set the route based on the modal title
+        switch (modalTitle) {
+            case "Jenis Institusi":
+                routeName = data.id ? route("institusi.updateJenis", { id: data.id }) : route("institusi.storeJenis");
+                break;
+            case "Group Institusi":
+                routeName = data.id ? route("institusi.updateGroup", { id: data.id }) : route("institusi.storeGroup");
+                break;
+            case "Daftar Institusi":
+                routeName = data.id ? route("institusi.updateDaftar", { id: data.id }) : route("institusi.storeDaftar");
+                break;
+            default:
+                return; // Return early if title doesn't match
         }
+    
+        // Check if it's an update or insert
+        const method = data.id ? 'put' : 'post';
+    
+        // Send the request (either update or insert)
+        router[method](routeName, data, {
+            onSuccess: () => {
+                reset();
+                setShowModal(false);
+            },
+            onError: (error) => alert(`${method === 'put' ? 'Update' : 'Insert'} failed!`),
+        });
     };
+    
+
+    // On the "Institusi" page component
+const handleDelete = (id, title) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+        let routeName = "";
+
+        // Dynamically set the route based on the modal title
+        switch (title) {
+            case "Jenis Institusi":
+                routeName = route("institusi.destroyJenis", { id });
+                break;
+            case "Group Institusi":
+                routeName = route("institusi.destroyGroup", { id });
+                break;
+            case "Daftar Institusi":
+                routeName = route("institusi.destroyDaftar", { id });
+                break;
+            default:
+                return; // Return early if title doesn't match
+        }
+
+        // Perform the deletion action
+        router.delete(routeName, {
+            onSuccess: () => alert("Record deleted successfully!"),
+            onError: (error) => {
+                console.error("Delete error:", error);
+                alert("Delete failed!");
+            },
+        });
+    }
+};
 
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
@@ -86,7 +122,10 @@ export default function Institusi({
                         title={table.title}
                         data={table.data}
                         onAddClick={() => handleAddClick(table.title)}
-                        onEditClick={(rowData) => handleEditClick(table.title, rowData)}
+                        onEditClick={(rowData) =>
+                            handleEditClick(table.title, rowData)
+                        }
+                        handleDelete={handleDelete}
                     />
                 ))}
 

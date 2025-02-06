@@ -22,7 +22,7 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
     const fields = useMemo(() => fieldsConfig[title] || [], [title]);
 
     // Helper function to determine if a field should be disabled when editing
-    const isFieldDisabled = (key) => data.id && (key === "ins_type_id" || key === "ins_group_id");
+    const isFieldDisabled = (key) => data.id && (key === "ins_type_id" || key === "ins_group_id" || key === "ins_id");
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

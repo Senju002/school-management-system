@@ -1,10 +1,4 @@
-import { router } from "@inertiajs/react";
-
-/**
- * Table Component
- * Displays data in a table format with edit and delete actions.
- */
-const Table = ({ title, data, onAddClick, onEditClick }) => {
+const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
     // Handle case where data is empty
     if (!data || data.length === 0) {
         return (
@@ -16,22 +10,6 @@ const Table = ({ title, data, onAddClick, onEditClick }) => {
 
     // Extract relevant columns (assuming at least one row exists)
     const columns = Object.keys(data[0]).slice(1, 3);
-
-    /**
-     * Handles deletion of a record
-     * @param {number} id - ID of the record to delete
-     */
-    const handleDelete = (id) => {
-        if (window.confirm("Are you sure you want to delete this record?")) {
-            router.delete(route("institusi.destroyJenis", { id }), {
-                onSuccess: () => alert("Record deleted successfully!"),
-                onError: (error) => {
-                    console.error("Delete error:", error);
-                    alert("Delete failed!");
-                },
-            });
-        }
-    };
 
     return (
         <div className="mb-6 p-6 bg-white shadow-lg rounded-xl">
@@ -84,7 +62,7 @@ const Table = ({ title, data, onAddClick, onEditClick }) => {
                                         Edit
                                     </button>
                                     <button
-                                        onClick={() => handleDelete(row.id)}
+                                        onClick={() => handleDelete(row.id, title)}
                                         className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
                                     >
                                         Delete

@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JenisInstitusiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,7 +16,3 @@ use App\Http\Controllers\JenisInstitusiController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/jenis-institusi', [JenisInstitusiController::class, 'index']);
-Route::post('/jenis-institusi', [JenisInstitusiController::class, 'store']);
-

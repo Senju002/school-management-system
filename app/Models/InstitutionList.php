@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InstitutionList extends Model {
     use HasFactory;
     protected $table = 'institution_lists';
+    protected $primaryKey = 'id';
     protected $fillable = ['ins_id', 'ins_name'];
 }
 

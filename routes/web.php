@@ -58,6 +58,13 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
     Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
     Route::delete('/institusi/daftar/{id}', [InstitutionController::class, 'destroyDaftar'])->name('institusi.destroyDaftar');
+
+    Route::prefix('user')->group(function () {
+        Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
+        Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
+        Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
 });
 
 Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {

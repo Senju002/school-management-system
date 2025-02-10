@@ -36,42 +36,34 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
-    // Show the Institusi page
+    // Institution Routes
     Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
 
-    // Store new data for each table
+    // Institution Jenis Routes
     Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
-    Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
-    Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
-
-    // ✅ Add Edit & Update Routes
     Route::get('/institusi/jenis/{id}/edit', [InstitutionController::class, 'editJenis'])->name('institusi.editJenis');
     Route::put('/institusi/jenis/{id}', [InstitutionController::class, 'updateJenis'])->name('institusi.updateJenis');
+    Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
 
+    // Institution Group Routes
+    Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
     Route::get('/institusi/group/{id}/edit', [InstitutionController::class, 'editGroup'])->name('institusi.editGroup');
     Route::put('/institusi/group/{id}', [InstitutionController::class, 'updateGroup'])->name('institusi.updateGroup');
+    Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
 
+    // Institution Daftar Routes
+    Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
     Route::get('/institusi/daftar/{id}/edit', [InstitutionController::class, 'editDaftar'])->name('institusi.editDaftar');
     Route::put('/institusi/daftar/{id}', [InstitutionController::class, 'updateDaftar'])->name('institusi.updateDaftar');
-
-    // ✅ Add Delete Routes
-    Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
-    Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
     Route::delete('/institusi/daftar/{id}', [InstitutionController::class, 'destroyDaftar'])->name('institusi.destroyDaftar');
 
-    Route::prefix('user')->group(function () {
-        Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
-        Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
-        Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
-        Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-    });
-});
 
-Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
-    // Show the Daftar User page
-    Route::get('/daftar-user', [UserController::class, 'index'])->name('daftar-user.index');
+    // Daftar User Routes
+    Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
+    Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
+    Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 });
-
 
 Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/position', [PositionController::class, "index"])->name('position.index');

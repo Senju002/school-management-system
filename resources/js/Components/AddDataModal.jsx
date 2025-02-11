@@ -20,7 +20,7 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
 
     // Memoize field selection for better performance
     const fields = useMemo(() => fieldsConfig[title] || [], [title]);
-
+    console.log("Tes", data)
     // Helper function to determine if a field should be disabled when editing
     const isFieldDisabled = (key) => data.id && (key === "ins_type_id" || key === "ins_group_id" || key === "ins_id");
 

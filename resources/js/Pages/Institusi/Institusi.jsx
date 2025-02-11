@@ -4,6 +4,7 @@ import Table from "@/Components/Table";
 import Header from "@/Components/Header";
 import AddDataModal from "@/Components/AddDataModal";
 import { useState } from "react";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 export default function Institusi({
     jenisInstitusi,
@@ -62,49 +63,70 @@ export default function Institusi({
         }
     
         // Check if it's an update or insert
-        const method = data.id ? 'put' : 'post';
+        const method = data.id ? "put" : "post";
     
         // Send the request (either update or insert)
         router[method](routeName, data, {
             onSuccess: () => {
                 reset();
                 setShowModal(false);
+                Swal.fire({
+                    icon: "success",
+                    title: method === "put" ? "Updated!" : "Inserted!",
+                    text: `Institusi ${method === "put" ? "updated" : "added"} successfully!`,
+                });
             },
-            onError: (error) => alert(`${method === 'put' ? 'Update' : 'Insert'} failed!`),
+            onError: (error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: error.ins_type_name || "Something went wrong!",
+                });
+            },
         });
     };
-    
 
-    // On the "Institusi" page component
-const handleDelete = (id, title) => {
-    if (window.confirm("Are you sure you want to delete this record?")) {
-        let routeName = "";
+    // Handle delete action with confirmation prompt
+    const handleDelete = (id, title) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This action cannot be undone!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let routeName = "";
 
-        // Dynamically set the route based on the modal title
-        switch (title) {
-            case "Jenis Institusi":
-                routeName = route("institusi.destroyJenis", { id });
-                break;
-            case "Group Institusi":
-                routeName = route("institusi.destroyGroup", { id });
-                break;
-            case "Daftar Institusi":
-                routeName = route("institusi.destroyDaftar", { id });
-                break;
-            default:
-                return; // Return early if title doesn't match
-        }
+                // Dynamically set the route based on the modal title
+                switch (title) {
+                    case "Jenis Institusi":
+                        routeName = route("institusi.destroyJenis", { id });
+                        break;
+                    case "Group Institusi":
+                        routeName = route("institusi.destroyGroup", { id });
+                        break;
+                    case "Daftar Institusi":
+                        routeName = route("institusi.destroyDaftar", { id });
+                        break;
+                    default:
+                        return; // Return early if title doesn't match
+                }
 
-        // Perform the deletion action
-        router.delete(routeName, {
-            onSuccess: () => alert("Record deleted successfully!"),
-            onError: (error) => {
-                console.error("Delete error:", error);
-                alert("Delete failed!");
-            },
+                // Perform the deletion action
+                router.delete(routeName, {
+                    onSuccess: () => {
+                        Swal.fire("Deleted!", "Institusi has been deleted.", "success");
+                    },
+                    onError: () => {
+                        Swal.fire("Error!", "Failed to delete institusi.", "error");
+                    },
+                });
+            }
         });
-    }
-};
+    };
 
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
@@ -122,9 +144,7 @@ const handleDelete = (id, title) => {
                         title={table.title}
                         data={table.data}
                         onAddClick={() => handleAddClick(table.title)}
-                        onEditClick={(rowData) =>
-                            handleEditClick(table.title, rowData)
-                        }
+                        onEditClick={(rowData) => handleEditClick(table.title, rowData)}
                         handleDelete={handleDelete}
                     />
                 ))}

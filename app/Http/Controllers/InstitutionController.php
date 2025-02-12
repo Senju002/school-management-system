@@ -24,12 +24,12 @@ class InstitutionController extends Controller
     public function storeJenis(Request $request)
     {
         $request->validate([
-            'ins_type_id' => 'required|string|unique:institution_type,ins_type_id',
+            'id' => 'required|string|unique:institution_type,id',
             'ins_type_name' => 'required|string|max:255',
         ]);
 
         InstitutionType::create([
-            'ins_type_id' => $request->ins_type_id,
+            'id' => $request->id,
             'ins_type_name' => $request->ins_type_name,
         ]);
 
@@ -47,11 +47,11 @@ class InstitutionController extends Controller
     public function updateJenis(Request $request, InstitutionType $id)
     {
         $validated = $request->validate([
-            'ins_type_id' => 'required|string|max:255',
+            'id' => 'required|string|max:255',
             'ins_type_name' => 'required|string|max:255',
         ]); 
 
-        $id->ins_type_id = $validated['ins_type_id'];
+        $id->id = $validated['id'];
         $id->ins_type_name = $validated['ins_type_name'];
         $id->save();
 

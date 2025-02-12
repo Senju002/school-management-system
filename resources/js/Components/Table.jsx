@@ -7,9 +7,9 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
             </p>
         );
     }
-
+    console.log("data", data);
     // Extract relevant columns (assuming at least one row exists)
-    const columns = Object.keys(data[0]).slice(1, 3);
+    const columns = Object.keys(data[0]).slice(0, 2);
 
     return (
         <div className="mb-6 p-6 bg-white shadow-lg rounded-xl">

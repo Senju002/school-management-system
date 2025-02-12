@@ -9,5 +9,7 @@ class InstitutionType extends Model {
     use HasFactory;
     protected $table = 'institution_type';
     protected $primaryKey = 'id';
-    protected $fillable = ['ins_type_id', 'ins_type_name'];
+    public $incrementing = false; // Since we're using a string ID
+    protected $keyType = 'string';
+    protected $fillable = ['id', 'ins_type_name'];
 }

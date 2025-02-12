@@ -10,9 +10,9 @@ use App\Models\InstitutionList;
 class InstitusiSeeder extends Seeder {
     public function run() {
         // Insert Jenis Institusi
-        InstitutionType::create(['ins_type_id' => 'J001', 'ins_type_name' => 'Sekolah Dasar']);
-        InstitutionType::create(['ins_type_id' => 'J002', 'ins_type_name' => 'Sekolah Menengah Pertama']);
-        InstitutionType::create(['ins_type_id' => 'J003', 'ins_type_name' => 'Sekolah Menengah Atas']);
+        InstitutionType::create(['id' => 'J001', 'ins_type_name' => 'Sekolah Dasar']);
+        InstitutionType::create(['id' => 'J002', 'ins_type_name' => 'Sekolah Menengah Pertama']);
+        InstitutionType::create(['id' => 'J003', 'ins_type_name' => 'Sekolah Menengah Atas']);
 
         // Insert Group Institusi
         InstitutionGroup::create(['ins_group_id' => 'G001', 'ins_group_name' => 'Sutomo']);

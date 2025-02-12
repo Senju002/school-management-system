@@ -49,7 +49,7 @@ class InstitutionController extends Controller
         $validated = $request->validate([
             'id' => 'required|string|max:255',
             'ins_type_name' => 'required|string|max:255',
-        ]); 
+        ]);
 
         $id->id = $validated['id'];
         $id->ins_type_name = $validated['ins_type_name'];
@@ -58,47 +58,55 @@ class InstitutionController extends Controller
         return redirect()->back()->with('success', 'Institusi berhasil ditambah');
     }
 
-        // ✅ Update Jenis Institusi
-        public function updateGroup(Request $request, InstitutionGroup $id)
-        {
-            $validated = $request->validate([
-                'ins_group_id' => 'required|string|max:255',
-                'ins_group_name' => 'required|string|max:255',
-            ]); 
-    
-            $id->ins_group_id = $validated['ins_group_id'];
-            $id->ins_group_name = $validated['ins_group_name'];
-            $id->save();
-    
-            return redirect()->back()->with('success', 'Institusi berhasil ditambah');
-        }
+    // ✅ Update Jenis Institusi
+    public function updateGroup(Request $request, InstitutionGroup $id)
+    {
+        $validated = $request->validate([
+            'id' => 'required|string|max:255',
+            'ins_group_name' => 'required|string|max:255',
+        ]);
+
+        $id->id = $validated['id'];
+        $id->ins_group_name = $validated['ins_group_name'];
+        $id->save();
+
+        return redirect()->back()->with('success', 'Institusi berhasil ditambah');
+    }
 
     // ✅ Store new Group Institusi
     public function storeGroup(Request $request)
     {
         $request->validate([
-            'ins_group_id' => 'required|string|unique:institution_group,ins_group_id',
+            'id' => 'required|string|unique:institution_group,id',
             'ins_group_name' => 'required|string|max:255',
         ]);
 
         InstitutionGroup::create([
-            'ins_group_id' => $request->ins_group_id,
+            'id' => $request->id,
             'ins_group_name' => $request->ins_group_name,
         ]);
 
         return redirect()->route('institusi.index')->with('success', 'Group Institusi added successfully.');
     }
 
+    // ✅ Edit Daftar Institusi
+    public function editGroup($id)
+    {
+        $groupInstitusi = InstitutionGroup::findOrFail($id);
+        return response()->json($groupInstitusi);
+    }
+
+
     // ✅ Store new Daftar Institusi
     public function storeDaftar(Request $request)
     {
         $request->validate([
-            'ins_id' => 'required|string|unique:institution_lists,ins_id',
+            'id' => 'required|string|unique:institution_lists,id',
             'ins_name' => 'required|string|max:255',
         ]);
 
         InstitutionList::create([
-            'ins_id' => $request->ins_id,
+            'id' => $request->id,
             'ins_name' => $request->ins_name,
         ]);
 

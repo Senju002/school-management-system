@@ -15,13 +15,13 @@ class InstitusiSeeder extends Seeder {
         InstitutionType::create(['id' => 'J003', 'ins_type_name' => 'Sekolah Menengah Atas']);
 
         // Insert Group Institusi
-        InstitutionGroup::create(['ins_group_id' => 'G001', 'ins_group_name' => 'Sutomo']);
-        InstitutionGroup::create(['ins_group_id' => 'G002', 'ins_group_name' => 'Methodist']);
-        InstitutionGroup::create(['ins_group_id' => 'G003', 'ins_group_name' => 'Kalam Kudus']);
+        InstitutionGroup::create(['id' => 'G001', 'ins_group_name' => 'Sutomo']);
+        InstitutionGroup::create(['id' => 'G002', 'ins_group_name' => 'Methodist']);
+        InstitutionGroup::create(['id' => 'G003', 'ins_group_name' => 'Kalam Kudus']);
 
         // Insert Nama Institusi
-        InstitutionList::create(['ins_id' => 'I001', 'ins_name' => 'SD Sutomo']);
-        InstitutionList::create(['ins_id' => 'I002', 'ins_name' => 'SMP Sutomo']);
-        InstitutionList::create(['ins_id' => 'I003', 'ins_name' => 'Methodist 1']);
+        InstitutionList::create(['id' => 'I001', 'ins_name' => 'SD Sutomo']);
+        InstitutionList::create(['id' => 'I002', 'ins_name' => 'SMP Sutomo']);
+        InstitutionList::create(['id' => 'I003', 'ins_name' => 'Methodist 1']);
     }
 }

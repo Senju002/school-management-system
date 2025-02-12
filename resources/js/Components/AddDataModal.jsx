@@ -6,11 +6,11 @@ const fieldsConfig = {
         { key: "ins_type_name", label: "Nama Jenis Institusi" },
     ],
     "Group Institusi": [
-        { key: "ins_group_id", label: "Kode Grup" },
+        { key: "id", label: "Kode Grup" },
         { key: "ins_group_name", label: "Nama Grup Institusi" },
     ],
     "Daftar Institusi": [
-        { key: "ins_id", label: "Kode Institusi" },
+        { key: "id", label: "Kode Institusi" },
         { key: "ins_name", label: "Nama Institusi" },
     ],
 };
@@ -23,7 +23,7 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
 
     // Function to determine if a field should be disabled when editing
     const isFieldDisabled = (key) => 
-        isEditMode && ["id", "ins_group_id", "ins_id"].includes(key);
+        isEditMode && ["id"].includes(key);
     
 
     return (

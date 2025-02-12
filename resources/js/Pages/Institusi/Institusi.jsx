@@ -17,13 +17,12 @@ export default function Institusi({
     const [modalTitle, setModalTitle] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false); // Track whether editing or adding
-    const [disabledFields, setDisabledFields] = useState({});
 
     // Define initial form templates for different types of institutions
     const formTemplates = {
         "Jenis Institusi": { id: "", ins_type_name: "" },
-        "Group Institusi": { ins_group_id: "", ins_group_name: "" },
-        "Daftar Institusi": { ins_id: "", ins_name: "" },
+        "Group Institusi": { id: "", ins_group_name: "" },
+        "Daftar Institusi": { id: "", ins_name: "" },
     };
 
     // useForm hook for handling form state and submission
@@ -61,12 +60,12 @@ export default function Institusi({
                 break;
             case "Group Institusi":
                 routeName = isEditMode 
-                    ? route("institusi.updateGroup", { id: data.ins_group_id }) 
+                    ? route("institusi.updateGroup", { id: data.id }) 
                     : route("institusi.storeGroup");
                 break;
             case "Daftar Institusi":
                 routeName = isEditMode 
-                    ? route("institusi.updateDaftar", { id: data.ins_id }) 
+                    ? route("institusi.updateDaftar", { id: data.id }) 
                     : route("institusi.storeDaftar");
                 break;
             default:

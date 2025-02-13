@@ -14,4 +14,5 @@ class Position extends Model
     public $incrementing = false; // Since we're using a string ID
     protected $keyType = 'string';
     protected $fillable = ['id', 'position_name'];
+    protected $hidden = ['created_at', 'updated_at'];
 }

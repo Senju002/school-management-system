@@ -14,4 +14,5 @@ class PositionGrade extends Model
     public $incrementing = false; // Since we're using a string ID
     protected $keyType = 'string';
     protected $fillable = ['id', 'job_level'];
+    protected $hidden = ['created_at', 'updated_at'];
 }

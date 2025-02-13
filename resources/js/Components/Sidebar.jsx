@@ -81,7 +81,7 @@ export default function Sidebar({ user, classname, auth }) {
     };
     return (
         <Card
-            className={`h-screen w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-sidebar ${classname}`}
+            className={`h-screen  w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-sidebar ${classname}`}
         >
             <div className="mb-2 flex items-center flex-col text-textColor gap-4 p-4">
                 <Link>

@@ -13,77 +13,76 @@ export default function Institusi({
     auth,
     errors,
 }) {
-    // State for managing modal visibility, title, and edit mode
     const [modalTitle, setModalTitle] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false); // Track whether editing or adding
+    const [isEditMode, setIsEditMode] = useState(false);
 
-    // Define initial form templates for different types of institutions
     const formTemplates = {
-        "Jenis Institusi": { id: "", ins_type_name: "" },
-        "Group Institusi": { id: "", ins_group_name: "" },
-        "Daftar Institusi": { id: "", ins_name: "" },
+        "Jenis Institusi": { ins_type_name: "" },
+        "Group Institusi": { ins_group_name: "" },
+        "Daftar Institusi": { ins_name: "" },
     };
 
-    // useForm hook for handling form state and submission
-    const { data, setData, post, processing, reset } = useForm({});
+    const { data, setData, post, put, processing, reset } = useForm({});
 
-    // Handle the "Add" button click, opening the modal with an empty form
+    // Open modal for adding new data
     const handleAddClick = (type) => {
         setModalTitle(type);
         setShowModal(true);
-        setIsEditMode(false); // Set to insert mode
-        setData(formTemplates[type] || {}); // Reset form for new entry
+        setIsEditMode(false);
+        setData(formTemplates[type] || {});
     };
 
-    // Handle the "Edit" button click, opening the modal with existing data
+    // Open modal for editing existing data
     const handleEditClick = (type, rowData) => {
-        console.log('ini lagi dipencet')
         setModalTitle(type);
         setShowModal(true);
-        setIsEditMode(true); // Set to edit mode
-        setData({ ...rowData }); // Prefill form with selected data
+        setIsEditMode(true);
+        setData({ ...rowData });
     };
 
-    // Handle form submission for adding or updating data
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         let routeName = "";
-    
-        // Dynamically set the route based on the modal title
+        const method = isEditMode ? "put" : "post";
+
         switch (modalTitle) {
             case "Jenis Institusi":
-                routeName = isEditMode 
-                    ? route("institusi.updateJenis", { id: data.id }) 
+                routeName = isEditMode
+                    ? route("institusi.updateJenis", { id: data.id })
                     : route("institusi.storeJenis");
                 break;
             case "Group Institusi":
-                routeName = isEditMode 
-                    ? route("institusi.updateGroup", { id: data.id }) 
+                routeName = isEditMode
+                    ? route("institusi.updateGroup", { id: data.id })
                     : route("institusi.storeGroup");
                 break;
             case "Daftar Institusi":
-                routeName = isEditMode 
-                    ? route("institusi.updateDaftar", { id: data.id }) 
+                routeName = isEditMode
+                    ? route("institusi.updateDaftar", { id: data.id })
                     : route("institusi.storeDaftar");
                 break;
             default:
-                return; // Return early if title doesn't match
+                return;
         }
 
-        // Check if it's an update or insert
-        const method = isEditMode ? "put" : "post";
+        // Remove ID field for new inserts
+        const payload = { ...data };
+        if (!isEditMode) delete payload.id;
 
-        // Send the request (either update or insert)
-        router[method](routeName, data, {
+        // Send request
+        router[method](routeName, payload, {
             onSuccess: () => {
                 reset();
                 setShowModal(false);
                 Swal.fire({
                     icon: "success",
                     title: isEditMode ? "Updated!" : "Inserted!",
-                    text: `Institusi ${isEditMode ? "updated" : "added"} successfully!`,
+                    text: `Institusi ${
+                        isEditMode ? "updated" : "added"
+                    } successfully!`,
                 });
             },
             onError: (error) => {
@@ -96,7 +95,7 @@ export default function Institusi({
         });
     };
 
-    // Handle delete action with confirmation prompt
+    // Handle delete with confirmation
     const handleDelete = (id, title) => {
         Swal.fire({
             title: "Are you sure?",
@@ -110,7 +109,6 @@ export default function Institusi({
             if (result.isConfirmed) {
                 let routeName = "";
 
-                // Dynamically set the route based on the modal title
                 switch (title) {
                     case "Jenis Institusi":
                         routeName = route("institusi.destroyJenis", { id });
@@ -122,16 +120,23 @@ export default function Institusi({
                         routeName = route("institusi.destroyDaftar", { id });
                         break;
                     default:
-                        return; // Return early if title doesn't match
+                        return;
                 }
 
-                // Perform the deletion action
                 router.delete(routeName, {
                     onSuccess: () => {
-                        Swal.fire("Deleted!", "Institusi has been deleted.", "success");
+                        Swal.fire(
+                            "Deleted!",
+                            "Institusi has been deleted.",
+                            "success"
+                        );
                     },
                     onError: () => {
-                        Swal.fire("Error!", "Failed to delete institusi.", "error");
+                        Swal.fire(
+                            "Error!",
+                            "Failed to delete institusi.",
+                            "error"
+                        );
                     },
                 });
             }
@@ -143,7 +148,6 @@ export default function Institusi({
             <Head title="Institusi" />
             <Header title="Institusi" />
             <div className="w-full px-4 mt-8">
-                {/* Render tables dynamically for different institution types */}
                 {[
                     { title: "Jenis Institusi", data: jenisInstitusi },
                     { title: "Group Institusi", data: groupInstitusi },
@@ -154,12 +158,13 @@ export default function Institusi({
                         title={table.title}
                         data={table.data}
                         onAddClick={() => handleAddClick(table.title)}
-                        onEditClick={(rowData) => handleEditClick(table.title, rowData)}
+                        onEditClick={(rowData) =>
+                            handleEditClick(table.title, rowData)
+                        }
                         handleDelete={handleDelete}
                     />
                 ))}
 
-                {/* Modal for adding/editing data */}
                 {showModal && (
                     <AddDataModal
                         showModal={showModal}
@@ -169,7 +174,6 @@ export default function Institusi({
                         setData={setData}
                         handleSubmit={handleSubmit}
                         processing={processing}
-                        isEditMode={isEditMode} // ✅ Pass edit mode flag
                     />
                 )}
             </div>

@@ -24,17 +24,29 @@ class InstitutionController extends Controller
     public function storeJenis(Request $request)
     {
         $request->validate([
-            'id' => 'required|string|unique:institution_type,id',
             'ins_type_name' => 'required|string|max:255',
         ]);
 
+        $prefix = 'J'; // Prefix for Jenis Institusi
+
+        // Retrieve all IDs and extract numeric parts
+        $lastEntry = InstitutionType::select('id')->get()->map(function ($item) use ($prefix) {
+            return (int) str_replace($prefix, '', $item->id);
+        })->max(); // Get the maximum numeric value
+
+        // Generate the next ID
+        $newIdNumber = $lastEntry ? $lastEntry + 1 : 1;
+        $newId = $prefix . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
+
+        // Insert into database
         InstitutionType::create([
-            'id' => $request->id,
+            'id' => $newId, // ✅ Use the correctly generated ID
             'ins_type_name' => $request->ins_type_name,
         ]);
 
         return redirect()->route('institusi.index')->with('success', 'Jenis Institusi added successfully.');
     }
+
 
     // ✅ Edit Jenis Institusi
     public function editJenis(InstitutionType $id)
@@ -58,6 +70,51 @@ class InstitutionController extends Controller
         return redirect()->back()->with('success', 'Institusi berhasil ditambah');
     }
 
+    // ✅ Delete Jenis Institusi
+    public function destroyJenis($id)
+    {
+        $jenisInstitusi = InstitutionType::findOrFail($id);
+        $jenisInstitusi->delete();
+
+        return redirect()->route('institusi.index')->with('success', 'Jenis Institusi deleted successfully.');
+    }
+
+    // ✅ Store new Group Institusi
+    public function storeGroup(Request $request)
+    {
+        $request->validate([
+            'ins_group_name' => 'required|string|max:255',
+        ]);
+
+        $prefix = 'G'; // Prefix for Jenis Institusi
+
+        // Retrieve all IDs and extract numeric parts
+        $lastEntry = InstitutionGroup::select('id')->get()->map(function ($item) use ($prefix) {
+            return (int) str_replace($prefix, '', $item->id);
+        })->max(); // Get the maximum numeric value
+
+        // Generate the next ID
+        $newIdNumber = $lastEntry ? $lastEntry + 1 : 1;
+        $newId = $prefix . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
+
+        // Insert into database
+        InstitutionGroup::create([
+            'id' => $newId, // ✅ Use the correctly generated ID
+            'ins_group_name' => $request->ins_group_name,
+        ]);
+
+        return redirect()->route('institusi.index')->with('success', 'Group Institusi added successfully.');
+    }
+
+
+    // ✅ Edit Daftar Institusi
+    public function editGroup($id)
+    {
+        $groupInstitusi = InstitutionGroup::findOrFail($id);
+        return response()->json($groupInstitusi);
+    }
+
+
     // ✅ Update Jenis Institusi
     public function updateGroup(Request $request, InstitutionGroup $id)
     {
@@ -73,47 +130,41 @@ class InstitutionController extends Controller
         return redirect()->back()->with('success', 'Institusi berhasil ditambah');
     }
 
-    // ✅ Store new Group Institusi
-    public function storeGroup(Request $request)
-    {
-        $request->validate([
-            'id' => 'required|string|unique:institution_group,id',
-            'ins_group_name' => 'required|string|max:255',
-        ]);
-
-        InstitutionGroup::create([
-            'id' => $request->id,
-            'ins_group_name' => $request->ins_group_name,
-        ]);
-
-        return redirect()->route('institusi.index')->with('success', 'Group Institusi added successfully.');
-    }
-
-    // ✅ Edit Daftar Institusi
-    public function editGroup($id)
+    // ✅ Delete Group Institusi
+    public function destroyGroup($id)
     {
         $groupInstitusi = InstitutionGroup::findOrFail($id);
-        return response()->json($groupInstitusi);
-    }
+        $groupInstitusi->delete();
 
+        return redirect()->route('institusi.index')->with('success', 'Group Institusi deleted successfully.');
+    }
 
     // ✅ Store new Daftar Institusi
     public function storeDaftar(Request $request)
     {
         $request->validate([
-            'id' => 'required|string|unique:institution_lists,id',
             'ins_name' => 'required|string|max:255',
         ]);
 
+        $prefix = 'I'; // Prefix for Jenis Institusi
+
+        // Retrieve all IDs and extract numeric parts
+        $lastEntry = InstitutionList::select('id')->get()->map(function ($item) use ($prefix) {
+            return (int) str_replace($prefix, '', $item->id);
+        })->max(); // Get the maximum numeric value
+
+        // Generate the next ID
+        $newIdNumber = $lastEntry ? $lastEntry + 1 : 1;
+        $newId = $prefix . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
+
+        // Insert into database
         InstitutionList::create([
-            'id' => $request->id,
+            'id' => $newId, // ✅ Use the correctly generated ID
             'ins_name' => $request->ins_name,
         ]);
 
-        return redirect()->route('institusi.index')->with('success', 'Daftar Institusi added successfully.');
+        return redirect()->route('institusi.index')->with('success', 'Institusi added successfully.');
     }
-
-
 
     // ✅ Edit Daftar Institusi
     public function editDaftar($id)
@@ -135,24 +186,6 @@ class InstitutionController extends Controller
         ]);
 
         return redirect()->route('institusi.index')->with('success', 'Daftar Institusi updated successfully.');
-    }
-
-    // ✅ Delete Jenis Institusi
-    public function destroyJenis($id)
-    {
-        $jenisInstitusi = InstitutionType::findOrFail($id);
-        $jenisInstitusi->delete();
-
-        return redirect()->route('institusi.index')->with('success', 'Jenis Institusi deleted successfully.');
-    }
-
-    // ✅ Delete Group Institusi
-    public function destroyGroup($id)
-    {
-        $groupInstitusi = InstitutionGroup::findOrFail($id);
-        $groupInstitusi->delete();
-
-        return redirect()->route('institusi.index')->with('success', 'Group Institusi deleted successfully.');
     }
 
     // ✅ Delete Daftar Institusi

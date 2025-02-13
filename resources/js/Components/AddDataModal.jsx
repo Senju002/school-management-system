@@ -21,11 +21,6 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
     // Memoize field selection for better performance
     const fields = useMemo(() => fieldsConfig[title] || [], [title]);
 
-    // Function to determine if a field should be disabled when editing
-    const isFieldDisabled = (key) => 
-        isEditMode && ["id"].includes(key);
-    
-
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -43,9 +38,9 @@ const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, 
                                 type="text"
                                 value={data[key] || ""}
                                 onChange={(e) => setData(prev => ({ ...prev, [key]: e.target.value }))}
-                                className={`w-full p-2 border rounded focus:ring focus:ring-blue-300 ${isFieldDisabled(key) ? 'bg-gray-300' : ''}`} // Apply gray background when disabled
-                                required
-                                disabled={isFieldDisabled(key)}
+                                className={`w-full p-2 border rounded focus:ring focus:ring-blue-300 
+                                    ${key === "id" ? "bg-gray-300 cursor-not-allowed" : ""}`} 
+                                disabled={key === "id"} // Disable the 'id' input field
                             />
                         </div>
                     ))}

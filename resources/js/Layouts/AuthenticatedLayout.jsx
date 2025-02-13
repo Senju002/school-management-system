@@ -20,7 +20,7 @@ export default function Authenticated({ auth, header, children }) {
             <Sidebar
                 user={auth.user.name}
                 auth={role}
-                classname=" tablet:hidden sticky top-0"
+                classname=" tablet:hidden sticky top-0 bg-white"
             />
 
             <>

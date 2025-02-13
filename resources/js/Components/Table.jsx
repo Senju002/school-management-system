@@ -1,32 +1,35 @@
+import { Button, IconButton, Tooltip } from "@material-tailwind/react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+
 const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
     // Handle case where data is empty
     if (!data || data.length === 0) {
         return (
-            <p className="text-gray-500 text-center py-4">
-                Loading {title}...
-            </p>
+            <p className="text-gray-500 text-center py-4">Loading {title}...</p>
         );
     }
 
     // Extract relevant columns (assuming at least one row exists)
-    const columns = Object.keys(data[0]).slice(1, 3);
+    const columns = Object.keys(data[0]).slice(0, 3);
 
     return (
         <div className="mb-6 p-6 bg-white shadow-lg rounded-xl">
             {/* Header Section with Title and Add Button */}
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-                <button
+                <h2 className="text-xl font-medium text-primary uppercase mobile:text-sm ">
+                    {"Tabel " + title}
+                </h2>
+                <Button
                     onClick={onAddClick}
-                    className="px-4 py-2 bg-primary hover:bg-blue-700 text-white rounded-lg shadow-md transition"
+                    className=" bg-primary rounded-lg shadow-md transition w-60  mobile:text-xs mobile:w-52"
                 >
                     + Add {title}
-                </button>
+                </Button>
             </div>
 
             {/* Table Section */}
-            <div className="overflow-x-auto">
-                <table className="w-full table-fixed border-collapse rounded-lg overflow-hidden shadow-md">
+            <div className=" overflow-scroll">
+                <table className="w-full  border-collapse rounded-lg overflow-hidden shadow-md">
                     <thead>
                         <tr className="bg-primary text-white">
                             {columns.map((col) => (
@@ -37,7 +40,9 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
                                     {col.replace(/_/g, " ")}
                                 </th>
                             ))}
-                            <th className="px-4 py-3 text-left w-1/4">Actions</th>
+                            <th className="px-4 py-3 text-center w-1/4">
+                                ACTIONS
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,18 +59,56 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
                                         {row[col]}
                                     </td>
                                 ))}
-                                <td className="px-4 py-3 text-gray-700 border-b w-1/4 flex gap-2">
-                                    <button
-                                        onClick={() => onEditClick(row)}
-                                        className="px-3 py-1 bg-primary text-white rounded hover:bg-blue-700 transition"
-                                    >
-                                        Edit
+                                <td className="px-4 items-center justify-center py-3 text-gray-700 border-b  w-full flex gap-10">
+                                    <button onClick={() => onEditClick(row)}>
+                                        <Tooltip
+                                            content={"Edit " + title}
+                                            animate={{
+                                                mount: {
+                                                    scale: 1,
+                                                    y: 0,
+                                                },
+                                                unmount: {
+                                                    scale: 0,
+                                                    y: 25,
+                                                },
+                                            }}
+                                            className="bg-green-600"
+                                        >
+                                            <IconButton
+                                                variant="fill"
+                                                color="green"
+                                            >
+                                                <PencilIcon className="h-4 w-4" />
+                                            </IconButton>
+                                        </Tooltip>
                                     </button>
                                     <button
-                                        onClick={() => handleDelete(row.id, title)}
-                                        className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition"
+                                        onClick={() =>
+                                            handleDelete(row.id, title)
+                                        }
                                     >
-                                        Delete
+                                        <Tooltip
+                                            content={"Delete " + title}
+                                            animate={{
+                                                mount: {
+                                                    scale: 1,
+                                                    y: 0,
+                                                },
+                                                unmount: {
+                                                    scale: 0,
+                                                    y: 25,
+                                                },
+                                            }}
+                                            className="bg-red-600"
+                                        >
+                                            <IconButton
+                                                variant="fill"
+                                                color="red"
+                                            >
+                                                <TrashIcon className="h-4 w-4" />
+                                            </IconButton>
+                                        </Tooltip>
                                     </button>
                                 </td>
                             </tr>

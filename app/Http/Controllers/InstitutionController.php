@@ -71,12 +71,10 @@ class InstitutionController extends Controller
     }
 
     // ✅ Delete Jenis Institusi
-    public function destroyJenis($id)
+    public function destroyJenis(InstitutionType $id)
     {
-        $jenisInstitusi = InstitutionType::findOrFail($id);
-        $jenisInstitusi->delete();
-
-        return redirect()->route('institusi.index')->with('success', 'Jenis Institusi deleted successfully.');
+        $id->delete();
+        return redirect()->back()->with('success', 'Laboratorium deleted successfully.');
     }
 
     // ✅ Store new Group Institusi
@@ -131,12 +129,10 @@ class InstitutionController extends Controller
     }
 
     // ✅ Delete Group Institusi
-    public function destroyGroup($id)
+    public function destroyGroup(InstitutionGroup $id)
     {
-        $groupInstitusi = InstitutionGroup::findOrFail($id);
-        $groupInstitusi->delete();
-
-        return redirect()->route('institusi.index')->with('success', 'Group Institusi deleted successfully.');
+        $id->delete();
+        return redirect()->back()->with('success', 'Laboratorium deleted successfully.');
     }
 
     // ✅ Store new Daftar Institusi
@@ -189,11 +185,9 @@ class InstitutionController extends Controller
     }
 
     // ✅ Delete Daftar Institusi
-    public function destroyDaftar($id)
+    public function destroyDaftar(InstitutionList $id)
     {
-        $daftarInstitusi = InstitutionList::findOrFail($id);
-        $daftarInstitusi->delete();
-
-        return redirect()->route('institusi.index')->with('success', 'Daftar Institusi deleted successfully.');
+        $id->delete();
+        return redirect()->back()->with('success', 'Laboratorium deleted successfully.');
     }
 }

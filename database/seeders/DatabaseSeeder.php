@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PositionSeeder::class);
         $this->call(PositionGradeSeeder::class);
         $this->call(InstitusiSeeder::class);
+        $this->call(LaboratoriumSeeder::class);
     }
 }

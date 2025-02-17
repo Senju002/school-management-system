@@ -164,7 +164,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Daftar User
                                 </ListItem>
                             </Link>
-                            <Link href="/level-pegawai">
+                            <Link href="/laboratorium">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

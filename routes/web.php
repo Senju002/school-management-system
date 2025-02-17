@@ -8,7 +8,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\LaboratoriumController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,11 +63,17 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
     Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    // Position Routes
+    Route::get('/position', [PositionController::class, "index"])->name('position.index');
+
+    // laboratorium Routes
+    Route::get('/laboratorium', [LaboratoriumController::class, "index"])->name('laboratorium.index');
+    Route::post('/laboratorium/store', [LaboratoriumController::class, "store"])->name('laboratorium.store');
+    Route::put('/laboratorium/update{id}', [LaboratoriumController::class, "update"])->name('laboratorium.update');
+    Route::delete('/laboratorium/destroy{id}', [LaboratoriumController::class, "destroy"])->name('laboratorium.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
-    Route::get('/position', [PositionController::class, "index"])->name('position.index');
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

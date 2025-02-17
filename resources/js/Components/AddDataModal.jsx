@@ -13,6 +13,10 @@ const fieldsConfig = {
         { key: "id", label: "Kode Institusi" },
         { key: "ins_name", label: "Nama Institusi" },
     ],
+    "Laboratorium": [
+        { key: "id", label: "Kode Lab" },
+        { key: "lab_name", label: "Nama Laboratorium" },
+    ]
 };
 
 const AddDataModal = ({ showModal, onClose, title, data, setData, handleSubmit, processing, isEditMode }) => {

@@ -15,4 +15,11 @@ class Position extends Model
     protected $keyType = 'string';
     protected $fillable = ['id', 'position_name'];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'institution_user_positions')
+            ->withPivot('institution_id')
+            ->withTimestamps();
+    }
 }

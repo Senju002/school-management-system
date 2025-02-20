@@ -24,6 +24,7 @@ export default function Institusi({
     };
 
     const { data, setData, post, put, processing, reset } = useForm({});
+    console.log("oy",formTemplates)
 
     // Open modal for adding new data
     const handleAddClick = (type) => {

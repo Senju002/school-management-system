@@ -175,7 +175,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Daftar Laboratorium
                                 </ListItem>
                             </Link>
-                            <Link href="/level-pegawai">
+                            <Link href="/assignments">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

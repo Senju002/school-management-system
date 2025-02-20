@@ -18,6 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
+    // Relationship with worker_roles (Many-to-Many)
+
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
@@ -44,4 +46,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function institutions()
+    {
+        return $this->belongsToMany(InstitutionList::class, 'institution_user_positions')
+            ->withPivot('position_id')
+            ->withTimestamps();
+    }
+
+    public function positions()
+    {
+        return $this->belongsToMany(Position::class, 'institution_user_positions')
+            ->withPivot('institution_id')
+            ->withTimestamps();
+    }
 }

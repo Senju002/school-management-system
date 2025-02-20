@@ -164,6 +164,17 @@ export default function Sidebar({ user, classname, auth }) {
                                     Daftar User
                                 </ListItem>
                             </Link>
+                            <Link href="/assignments">
+                                <ListItem className={listItemStyles}>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon
+                                            strokeWidth={3}
+                                            className="h-3 w-5"
+                                        />
+                                    </ListItemPrefix>
+                                    Kelola Jabatan
+                                </ListItem>
+                            </Link>
                             <Link href="/laboratorium">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
@@ -173,17 +184,6 @@ export default function Sidebar({ user, classname, auth }) {
                                         />
                                     </ListItemPrefix>
                                     Daftar Laboratorium
-                                </ListItem>
-                            </Link>
-                            <Link href="/assignments">
-                                <ListItem className={listItemStyles}>
-                                    <ListItemPrefix>
-                                        <ChevronRightIcon
-                                            strokeWidth={3}
-                                            className="h-3 w-5"
-                                        />
-                                    </ListItemPrefix>
-                                    Daftar Kelas
                                 </ListItem>
                             </Link>
                             <Link href="/level-pegawai">

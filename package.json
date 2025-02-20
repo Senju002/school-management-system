@@ -28,6 +28,7 @@
         "@syncfusion/ej2-react-grids": "^28.2.3",
         "@syncfusion/ej2-react-schedule": "^28.2.3",
         "daisyui": "^4.12.23",
+        "react-select": "^5.10.0",
         "sweetalert": "^2.1.2",
         "sweetalert2": "^11.15.10",
         "sweetalert2-react-content": "^5.1.0",

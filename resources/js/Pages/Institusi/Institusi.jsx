@@ -2,7 +2,7 @@ import { Head, router, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Table from "@/Components/Table";
 import Header from "@/Components/Header";
-import AddDataModal from "@/Components/AddDataModal";
+import AddDataModal from "@/Components/Modal/AddDataModal";
 import { useState } from "react";
 import Swal from "sweetalert2"; // Import SweetAlert
 

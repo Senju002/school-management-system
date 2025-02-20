@@ -2,7 +2,7 @@ import { Head, router, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Table from "@/Components/Table";
 import Header from "@/Components/Header";
-import AddAssignments from "@/Components/Modal/AddAssignments";
+import AddDataModal from "@/Components/Modal/AddDataModal";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
@@ -111,18 +111,18 @@ export default function AssignRoles({
                     onEditClick={handleEditClick}
                 />
                 {showModal && (
-                    <AddAssignments
+                    <AddDataModal
                         showModal={showModal}
                         onClose={() => setShowModal(false)}
-                        title={modalTitle}
+                        title="Assignments"
                         data={data}
                         setData={setData}
                         handleSubmit={handleSubmit}
                         processing={processing}
-                        users={users}
+                        isEditMode={isEditMode}
+                        users={users} // Pass dropdown data
                         positions={positions}
                         institutions={institutions}
-                        isEditMode={isEditMode}
                     />
                 )}
             </div>

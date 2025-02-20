@@ -39,50 +39,53 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Institution Routes
-Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
+Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
+    // Institution Routes
+    Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
 
-// Institution Jenis Routes
-Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
-Route::get('/institusi/jenis/{id}/edit', [InstitutionController::class, 'editJenis'])->name('institusi.editJenis');
-Route::put('/institusi/jenis/{id}', [InstitutionController::class, 'updateJenis'])->name('institusi.updateJenis');
-Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
+    // Institution Jenis Routes
+    Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
+    Route::get('/institusi/jenis/{id}/edit', [InstitutionController::class, 'editJenis'])->name('institusi.editJenis');
+    Route::put('/institusi/jenis/{id}', [InstitutionController::class, 'updateJenis'])->name('institusi.updateJenis');
+    Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
 
-// Institution Group Routes
-Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
-Route::get('/institusi/group/{id}/edit', [InstitutionController::class, 'editGroup'])->name('institusi.editGroup');
-Route::put('/institusi/group/{id}', [InstitutionController::class, 'updateGroup'])->name('institusi.updateGroup');
-Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
+    // Institution Group Routes
+    Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
+    Route::get('/institusi/group/{id}/edit', [InstitutionController::class, 'editGroup'])->name('institusi.editGroup');
+    Route::put('/institusi/group/{id}', [InstitutionController::class, 'updateGroup'])->name('institusi.updateGroup');
+    Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
 
-// Institution Daftar Routes
-Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
-Route::get('/institusi/daftar/{id}/edit', [InstitutionController::class, 'editDaftar'])->name('institusi.editDaftar');
-Route::put('/institusi/daftar/{id}', [InstitutionController::class, 'updateDaftar'])->name('institusi.updateDaftar');
-Route::delete('/institusi/daftar/{id}', [InstitutionController::class, 'destroyDaftar'])->name('institusi.destroyDaftar');
-
-
-// Daftar User Routes
-Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
-Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
-Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
-Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-
-// Position Routes
-Route::get('/position', [PositionController::class, "index"])->name('position.index');
-
-// laboratorium Routes
-Route::get('/laboratorium', [LaboratoriumController::class, "index"])->name('laboratorium.index');
-Route::post('/laboratorium/store', [LaboratoriumController::class, "store"])->name('laboratorium.store');
-Route::put('/laboratorium/update{id}', [LaboratoriumController::class, "update"])->name('laboratorium.update');
-Route::delete('/laboratorium/destroy{id}', [LaboratoriumController::class, "destroy"])->name('laboratorium.destroy');
+    // Institution Daftar Routes
+    Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
+    Route::get('/institusi/daftar/{id}/edit', [InstitutionController::class, 'editDaftar'])->name('institusi.editDaftar');
+    Route::put('/institusi/daftar/{id}', [InstitutionController::class, 'updateDaftar'])->name('institusi.updateDaftar');
+    Route::delete('/institusi/daftar/{id}', [InstitutionController::class, 'destroyDaftar'])->name('institusi.destroyDaftar');
 
 
-// Route to display the Assign Roles page
-Route::get('/assignments', [InstitutionUserPositionController::class, 'index'])->name('assignments.index');
-Route::post('/assignments', [InstitutionUserPositionController::class, 'store'])->name('assignments.store');
-Route::get('/assignments/{id}/edit', [InstitutionUserPositionController::class, 'edit'])->name('assignments.edit');
-Route::put('/assignments/{id}', [InstitutionUserPositionController::class, 'update'])->name('assignments.update');
-Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
+    // Daftar User Routes
+    Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
+    Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
+    Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+    // Position Routes
+    Route::get('/position', [PositionController::class, "index"])->name('position.index');
+
+    // laboratorium Routes
+    Route::get('/laboratorium', [LaboratoriumController::class, "index"])->name('laboratorium.index');
+    Route::post('/laboratorium/store', [LaboratoriumController::class, "store"])->name('laboratorium.store');
+    Route::put('/laboratorium/update{id}', [LaboratoriumController::class, "update"])->name('laboratorium.update');
+    Route::delete('/laboratorium/destroy{id}', [LaboratoriumController::class, "destroy"])->name('laboratorium.destroy');
+
+
+    // Route to display the Assign Roles page
+    Route::get('/assignments', [InstitutionUserPositionController::class, 'index'])->name('assignments.index');
+    Route::post('/assignments', [InstitutionUserPositionController::class, 'store'])->name('assignments.store');
+    Route::get('/assignments/{id}/edit', [InstitutionUserPositionController::class, 'edit'])->name('assignments.edit');
+    Route::put('/assignments/{id}', [InstitutionUserPositionController::class, 'update'])->name('assignments.update');
+    Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
+});
+
 
 
 Route::middleware('auth')->group(function () {

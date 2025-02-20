@@ -2,7 +2,7 @@ import { Head, router, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Table from "@/Components/Table";
 import Header from "@/Components/Header";
-import AddDataModal from "@/Components/Modal/AddDataModal";
+import AddUserModal from "@/Components/Modal/AddUserModal";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
@@ -99,12 +99,13 @@ export default function DaftarUser({ users, auth, errors }) {
                     handleDelete={handleDeleteUser}
                 />
                 {showModal && (
-                    <AddDataModal
+                    <AddUserModal
                         showModal={showModal}
                         onClose={() => setShowModal(false)}
                         title="Daftar User"
                         data={data}
                         setData={setData}
+                        users={users}
                         handleSubmit={handleSubmit}
                         isEditMode={!!data.id}
                     />

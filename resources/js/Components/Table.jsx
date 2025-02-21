@@ -8,9 +8,15 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
             <p className="text-gray-500 text-center py-4">Loading {title}...</p>
         );
     }
-    console.log("data", data);
-    // Extract relevant columns (assuming at least one row exists)
-    const columns = Object.keys(data[0]).slice(0, 3);
+    // Determine column selection logic
+    let columns = Object.keys(data[0]);
+    if (title === "Assigned Roles") {
+        // Select columns 2 to 4 (slice from index 1 to 4)
+        columns = columns.slice(1, 4);
+    } else {
+        // Default: First 3 columns
+        columns = columns.slice(0, 3);
+    }
 
     return (
         <div className="mb-6 p-6 bg-white shadow-lg rounded-xl">
@@ -28,7 +34,7 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
             </div>
 
             {/* Table Section */}
-            <div className=" overflow-scroll">
+            <div className="overflow-scroll">
                 <table className="w-full  border-collapse rounded-lg overflow-hidden shadow-md">
                     <thead>
                         <tr className="bg-primary text-white">

@@ -44,10 +44,7 @@ class InstitutionUserPositionController extends Controller
         $institutionUserPosition = InstitutionUserPosition::findOrFail($id);
 
         // Return response (for API or View)
-        return response()->json([
-            'success' => true,
-            'data' => $institutionUserPosition
-        ]);
+        return response()->json($institutionUserPosition);
     }
 
     /**

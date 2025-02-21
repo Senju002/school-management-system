@@ -33,8 +33,17 @@ export default function AssignRoles({
     const handleEditClick = (rowData) => {
         setShowModal(true);
         setIsEditMode(true);
-        setData({ ...rowData });
+    
+        setData({
+            id: rowData.id, // ✅ Ensure ID is set here
+            user_id: users.find((user) => user.name === rowData.user)?.id || "",
+            position_id:
+                positions.find((pos) => pos.position_name === rowData.position)?.id || "",
+            institution_id:
+                institutions.find((inst) => inst.ins_name === rowData.institution)?.id || "",
+        });
     };
+    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -105,7 +114,12 @@ export default function AssignRoles({
             <div className="w-full px-4 mt-8">
                 <Table
                     title="Assigned Roles"
-                    data={assignments}
+                    data={assignments.map((item) => ({
+                        id: item.id,
+                        user: item.user?.name || "Unknown", // Fallback for missing user data
+                        position: item.position?.position_name || "Unknown",
+                        institution: item.institution?.ins_name || "Unknown",
+                    }))}
                     onAddClick={handleAddClick}
                     handleDelete={handleDelete}
                     onEditClick={handleEditClick}

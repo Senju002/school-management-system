@@ -10,15 +10,29 @@ const roleOptions = [
 const fieldsConfig = {
     Assignments: [
         { key: "user_id", label: "User", type: "dropdown", source: "users" },
-        { key: "position_id", label: "Position", type: "dropdown", source: "positions" },
-        { key: "institution_id", label: "Institution", type: "dropdown", source: "institutions" },
+        {
+            key: "position_id",
+            label: "Position",
+            type: "dropdown",
+            source: "positions",
+        },
+        {
+            key: "institution_id",
+            label: "Institution",
+            type: "dropdown",
+            source: "institutions",
+        },
     ],
     "Daftar User": [
         { key: "name", label: "Name" },
         { key: "email", label: "Email", type: "email" },
         { key: "role", label: "Role", type: "dropdown", source: "roles" },
         { key: "password", label: "Password", type: "password" },
-        { key: "password_confirmation", label: "Confirm Password", type: "password" },
+        {
+            key: "password_confirmation",
+            label: "Confirm Password",
+            type: "password",
+        },
     ],
 };
 
@@ -56,7 +70,6 @@ const AddUserModal = ({
 
     const getDropdownOptions = (source) => {
         if (source === "roles") return roleOptions;
-        
         const sourceMap = {
             users: { data: users, labelKey: "name" },
             positions: { data: positions, labelKey: "position_name" },
@@ -65,43 +78,46 @@ const AddUserModal = ({
 
         const { data, labelKey } = sourceMap[source] || {};
 
-        return (
+        const options =
             data?.map((item) => ({
                 value: item.id,
                 label: item[labelKey],
-            })) || []
-        );
-    };
+            })) || [];
 
+        return options;
+    };
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4">{title}</h2>
                 <form onSubmit={handleSubmit}>
-                    {fields.map(({ key, label, type, source }) => (
+                    {fields.map(({ key, label, type, source, id }) => (
                         <div key={key} className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 {label}
                             </label>
 
                             {type === "dropdown" ? (
-                                <Select
-                                    options={getDropdownOptions(source)}
-                                    value={
-                                        getDropdownOptions(source).find(
-                                            (option) => option.value === data[key]
-                                        ) || null
-                                    }
-                                    onChange={(selectedOption) =>
-                                        setData((prev) => ({
-                                            ...prev,
-                                            [key]: selectedOption.value,
-                                        }))
-                                    }
-                                    styles={customStyles}
-                                    placeholder={`Select ${label}`}
-                                    isSearchable
-                                />
+                                <>
+                                    <Select
+                                        options={getDropdownOptions(source)}
+                                        value={
+                                            getDropdownOptions(source).find(
+                                                (option) =>
+                                                    option.value === data[key]
+                                            ) || null
+                                        }
+                                        onChange={(selectedOption) =>
+                                            setData((prev) => ({
+                                                ...prev,
+                                                [key]: selectedOption.value,
+                                            }))
+                                        }
+                                        styles={customStyles}
+                                        placeholder={`Select ${label}`}
+                                        isSearchable
+                                    />
+                                </>
                             ) : (
                                 <input
                                     type={type || "text"}

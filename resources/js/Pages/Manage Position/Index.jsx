@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Table from "@/Components/Table";
 import Header from "@/Components/Header";
 import AddUserModal from "@/Components/Modal/AddUserModal";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Swal from "sweetalert2";
 
 export default function AssignRoles({
@@ -14,7 +14,6 @@ export default function AssignRoles({
     auth,
     errors,
 }) {
-    const [modalTitle, setModalTitle] = useState("Assignments");
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -24,45 +23,43 @@ export default function AssignRoles({
         institution_id: "",
     });
 
+    // Function to find an ID based on a name
+    const getIdByName = (list, key, value) => {
+        return list.find((item) => item[key] === value)?.id || "";
+    };
+
     const handleAddClick = () => {
+        reset(); // Instead of manually resetting each field
         setShowModal(true);
         setIsEditMode(false);
-        setData({ user_id: "", position_id: "", institution_id: "" });
     };
 
     const handleEditClick = (rowData) => {
         setShowModal(true);
         setIsEditMode(true);
-    
         setData({
-            id: rowData.id, // ✅ Ensure ID is set here
-            user_id: users.find((user) => user.name === rowData.user)?.id || "",
-            position_id:
-                positions.find((pos) => pos.position_name === rowData.position)?.id || "",
-            institution_id:
-                institutions.find((inst) => inst.ins_name === rowData.institution)?.id || "",
+            id: rowData.id,
+            user_id: getIdByName(users, "name", rowData.user),
+            position_id: getIdByName(positions, "position_name", rowData.position),
+            institution_id: getIdByName(institutions, "ins_name", rowData.institution),
         });
     };
-    
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
+        const method = isEditMode ? put : post;
         const routeName = isEditMode
             ? route("assignments.update", { id: data.id })
             : route("assignments.store");
-        const method = isEditMode ? "put" : "post";
-        console.log("data", data);
 
-        router[method](routeName, data, {
+        method(routeName, data, {
             onSuccess: () => {
                 reset();
                 setShowModal(false);
                 Swal.fire({
                     icon: "success",
                     title: isEditMode ? "Updated!" : "Assigned!",
-                    text: `Role ${
-                        isEditMode ? "updated" : "assigned"
-                    } successfully!`,
+                    text: `Role ${isEditMode ? "updated" : "assigned"} successfully!`,
                 });
             },
             onError: (error) => {
@@ -75,7 +72,6 @@ export default function AssignRoles({
         });
     };
 
-    // Handle delete with confirmation
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -89,23 +85,25 @@ export default function AssignRoles({
             if (result.isConfirmed) {
                 router.delete(route("assignments.destroy", { id }), {
                     onSuccess: () => {
-                        Swal.fire(
-                            "Deleted!",
-                            "Assignment has been deleted.",
-                            "success"
-                        );
+                        Swal.fire("Deleted!", "Assignment has been deleted.", "success");
                     },
                     onError: () => {
-                        Swal.fire(
-                            "Error!",
-                            "Failed to delete assignment.",
-                            "error"
-                        );
+                        Swal.fire("Error!", "Failed to delete assignment.", "error");
                     },
                 });
             }
         });
     };
+
+    // Memoized transformation of assignments data
+    const tableData = useMemo(() => {
+        return assignments.map((item) => ({
+            id: item.id,
+            user: item.user?.name || "Unknown",
+            position: item.position?.position_name || "Unknown",
+            institution: item.institution?.ins_name || "Unknown",
+        }));
+    }, [assignments]);
 
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
@@ -114,12 +112,7 @@ export default function AssignRoles({
             <div className="w-full px-4 mt-8">
                 <Table
                     title="Assigned Roles"
-                    data={assignments.map((item) => ({
-                        id: item.id,
-                        user: item.user?.name || "Unknown", // Fallback for missing user data
-                        position: item.position?.position_name || "Unknown",
-                        institution: item.institution?.ins_name || "Unknown",
-                    }))}
+                    data={tableData}
                     onAddClick={handleAddClick}
                     handleDelete={handleDelete}
                     onEditClick={handleEditClick}
@@ -134,7 +127,7 @@ export default function AssignRoles({
                         handleSubmit={handleSubmit}
                         processing={processing}
                         isEditMode={isEditMode}
-                        users={users} // Pass dropdown data
+                        users={users}
                         positions={positions}
                         institutions={institutions}
                     />

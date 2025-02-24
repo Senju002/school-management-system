@@ -311,7 +311,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </AccordionBody>
                 </Accordion>
 
-                <Link href="/home">
+                <Link href="/neon">
                     <ListItem className={listItemStyles}>
                         <ListItemPrefix>
                             <DocumentChartBarIcon className="h-5 w-5" />

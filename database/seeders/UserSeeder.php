@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     {
         DB::table("users")->insert([
             'name' => 'Cristiano Ronaldo',
-            // 'role' => 'KOORDINATOR',
+            'role' => 'KOORDINATOR',
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('12345678'),
             'email_verified_at' => now()
@@ -26,8 +26,16 @@ class UserSeeder extends Seeder
 
         DB::table("users")->insert([
             'name' => 'Lionel Messi',
-            // 'role' => 'INSTRUKTUR',
+            'role' => 'INSTRUKTUR',
             'email' => 'admin@gmail.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => now()
+        ]);
+
+        DB::table("users")->insert([
+            'name' => 'Neymar Jr',
+            'role' => 'ASISTEN',
+            'email' => 'neymar@gmail.com',
             'password' => Hash::make('12345678'),
             'email_verified_at' => now()
         ]);

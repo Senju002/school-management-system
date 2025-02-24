@@ -12,14 +12,8 @@ class InstitutionUserPositionSeeder extends Seeder
 {
     public function run()
     {
-        $user = User::first(); // Get any user
-        $position = Position::first(); // Get any position
-        $institution = InstitutionList::first(); // Get any institution
-
-        InstitutionUserPosition::create([
-            'user_id' => $user->id,
-            'position_id' => $position->id,
-            'institution_id' => $institution->id,
-        ]);
+        InstitutionUserPosition::create(['user_id' => '1','position_id' => 'ASST-001', 'institution_id' => 'I001']);
+        InstitutionUserPosition::create(['user_id' => '2','position_id' => 'INST-001', 'institution_id' => 'I002']);
+        InstitutionUserPosition::create(['user_id' => '3','position_id' => 'KOORD-001', 'institution_id' => 'I003']);
     }
 }

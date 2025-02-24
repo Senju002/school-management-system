@@ -11,6 +11,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaboratoriumController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\InstitutionUserPositionController;
+use App\Http\Controllers\Neon;
 
 
 /*
@@ -85,8 +86,6 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::put('/assignments/{id}', [InstitutionUserPositionController::class, 'update'])->name('assignments.update');
     Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

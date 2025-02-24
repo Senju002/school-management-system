@@ -12,5 +12,10 @@ class Laboratorium extends Model
     protected $primaryKey = 'id';
     public $incrementing = false; // Since we're using a string ID
     protected $keyType = 'string';
-    protected $fillable = ['id', 'lab_name'];
+    protected $fillable = ['id', 'institution_id','lab_name',];
+
+    public function institution()
+    {
+        return $this->belongsTo(InstitutionList::class, 'institution_id');
+    }
 }

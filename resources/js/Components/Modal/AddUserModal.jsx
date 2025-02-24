@@ -34,6 +34,16 @@ const fieldsConfig = {
             type: "password",
         },
     ],
+    Laboratorium: [
+        { key: "id", label: "ID" },
+        {
+            key: "institution_id",
+            label: "Institution",
+            type: "dropdown",
+            source: "institutions",
+        },
+        { key: "lab_name", label: "Name" },
+    ],
 };
 
 const customStyles = {
@@ -42,7 +52,7 @@ const customStyles = {
         padding: "6px",
         borderRadius: "6px",
         borderColor: state.isFocused ? "#888" : "#ccc",
-        boxShadow: state.isFocused ? "none" : "none",
+        boxShadow: "none",
         "&:hover": { borderColor: "#888" },
     }),
     option: (provided, { isFocused }) => ({
@@ -68,69 +78,98 @@ const AddUserModal = ({
 
     const fields = useMemo(() => fieldsConfig[title] || [], [title]);
 
-    const getDropdownOptions = (source) => {
-        if (source === "roles") return roleOptions;
-        const sourceMap = {
-            users: { data: users, labelKey: "name" },
-            positions: { data: positions, labelKey: "position_name" },
-            institutions: { data: institutions, labelKey: "ins_name" },
-        };
+    const dropdownOptions = useMemo(
+        () => ({
+            roles: roleOptions,
+            users: users.map(({ id, name }) => ({ value: id, label: name })),
+            positions: positions.map(({ id, position_name }) => ({
+                value: id,
+                label: position_name,
+            })),
+            institutions: institutions.map(({ id, ins_name }) => ({
+                value: id,
+                label: ins_name,
+            })),
+        }),
+        [users, positions, institutions]
+    );
 
-        const { data, labelKey } = sourceMap[source] || {};
-
-        const options =
-            data?.map((item) => ({
-                value: item.id,
-                label: item[labelKey],
-            })) || [];
-
-        return options;
+    // const renderFormField = ({ key, label, type, source }) => {
+    //     if (type === "dropdown") {
+    //         const options = dropdownOptions[source] || [];
+    //         return (
+    //             <Select
+    //                 options={options}
+    //                 value={
+    //                     options.find((option) => option.value === data[key]) ||
+    //                     null
+    //                 }
+    //                 onChange={(selected) =>
+    //                     setData((prev) => ({ ...prev, [key]: selected.value }))
+    //                 }
+    //                 styles={customStyles}
+    //                 placeholder={`Select ${label}`}
+    //                 isSearchable
+    //             />
+    //         );
+    //     }
+    //     return (
+    //         <input
+    //             type="text"
+    //             name="id"
+    //             value={data.id}
+    //             onChange={(e) => setData("id", e.target.value)}
+    //             disabled // This makes the field non-editable
+    //             className="border rounded px-3 py-2 w-full bg-gray-200 cursor-not-allowed"
+    //         />
+    //     );
+    // };
+    const renderFormField = ({ key, label, type, source }) => {
+        if (type === "dropdown") {
+            const options = dropdownOptions[source] || [];
+            return (
+                <Select
+                    options={options}
+                    value={
+                        options.find((option) => option.value === data[key]) ||
+                        null
+                    }
+                    onChange={(selected) =>
+                        setData((prev) => ({ ...prev, [key]: selected.value }))
+                    }
+                    styles={customStyles}
+                    placeholder={`Select ${label}`}
+                    isSearchable
+                />
+            );
+        }
+        return (
+            <input
+                type="text"
+                name={key} // Dynamically set name
+                value={data[key] || ""}
+                onChange={(e) =>
+                    setData((prev) => ({ ...prev, [key]: e.target.value }))
+                }
+                disabled={label === "ID"} // Disable only if the key is "id"
+                className={`border rounded px-3 py-2 w-full ${
+                    label === "ID" ? "bg-gray-200 cursor-not-allowed" : ""
+                }`}
+            />
+        );
     };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-xl font-bold mb-4">{title}</h2>
                 <form onSubmit={handleSubmit}>
-                    {fields.map(({ key, label, type, source, id }) => (
-                        <div key={key} className="mb-4">
+                    {fields.map((field) => (
+                        <div key={field.key} className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                {label}
+                                {field.label}
                             </label>
-
-                            {type === "dropdown" ? (
-                                <>
-                                    <Select
-                                        options={getDropdownOptions(source)}
-                                        value={
-                                            getDropdownOptions(source).find(
-                                                (option) =>
-                                                    option.value === data[key]
-                                            ) || null
-                                        }
-                                        onChange={(selectedOption) =>
-                                            setData((prev) => ({
-                                                ...prev,
-                                                [key]: selectedOption.value,
-                                            }))
-                                        }
-                                        styles={customStyles}
-                                        placeholder={`Select ${label}`}
-                                        isSearchable
-                                    />
-                                </>
-                            ) : (
-                                <input
-                                    type={type || "text"}
-                                    value={data[key] || ""}
-                                    onChange={(e) =>
-                                        setData((prev) => ({
-                                            ...prev,
-                                            [key]: e.target.value,
-                                        }))
-                                    }
-                                    className="w-full p-2 border rounded focus:ring focus:ring-blue-300"
-                                />
-                            )}
+                            {renderFormField(field)}
                         </div>
                     ))}
                     <div className="flex justify-end gap-2 mt-4">

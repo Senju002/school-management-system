@@ -13,7 +13,7 @@ class InstitutionUserPositionController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Assignments/Index', [
+        return Inertia::render('Manage Position/Index', [
             'assignments' => InstitutionUserPosition::with(['position', 'institution', 'user'])->get(),
             'users' => User::orderBy('created_at', 'asc')->get(),
             'positions' => Position::orderBy('created_at', 'asc')->get(),

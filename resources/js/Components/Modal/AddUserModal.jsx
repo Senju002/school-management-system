@@ -20,7 +20,7 @@ const fieldsConfig = {
             key: "institution_id",
             label: "Institution",
             type: "dropdown",
-            source: "institutions",
+            source: "institution_names",
         },
     ],
     "Daftar User": [
@@ -44,6 +44,12 @@ const fieldsConfig = {
         },
         { key: "lab_name", label: "Name" },
     ],
+    Class: [
+        {key: "id", label: "ID"},
+        {key: "class_name", label: "Class Name"},
+        {key: "ins_type_id", label: "Institution Type",  type: "dropdown", source: "institution_types"},
+        {key: "ins_id", label: "Institution List",  type: "dropdown", source: "institution_names"},
+    ]
 };
 
 const customStyles = {
@@ -72,12 +78,12 @@ const AddUserModal = ({
     processing,
     users = [],
     positions = [],
-    institutions = [],
+    institution_names = [],
+    institution_types = [],
 }) => {
     if (!showModal) return null;
 
     const fields = useMemo(() => fieldsConfig[title] || [], [title]);
-
     const dropdownOptions = useMemo(
         () => ({
             roles: roleOptions,
@@ -86,14 +92,17 @@ const AddUserModal = ({
                 value: id,
                 label: position_name,
             })),
-            institutions: institutions.map(({ id, ins_name }) => ({
+            institution_names: institution_names.map(({ id, ins_name }) => ({
                 value: id,
                 label: ins_name,
             })),
+            institution_types: institution_types.map(({ id, ins_type_name }) => ({
+                value: id,
+                label: ins_type_name,
+            })),
         }),
-        [users, positions, institutions]
+        [users, positions, institution_names, institution_types]
     );
-
     // const renderFormField = ({ key, label, type, source }) => {
     //     if (type === "dropdown") {
     //         const options = dropdownOptions[source] || [];
@@ -158,7 +167,6 @@ const AddUserModal = ({
             />
         );
     };
-
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">

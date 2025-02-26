@@ -13,7 +13,10 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
     if (title === "Assigned Roles") {
         // Select columns 2 to 4 (slice from index 1 to 4)
         columns = columns.slice(1, 4);
-    } else {
+    } else if (title = 'Class Lists'){{
+        columns = columns.slice(0, 5);
+    }}
+    else {
         // Default: First 3 columns
         columns = columns.slice(0, 3);
     }

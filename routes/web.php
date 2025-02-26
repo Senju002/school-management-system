@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ClassListController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\UserController;
@@ -85,6 +86,8 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/assignments/{id}/edit', [InstitutionUserPositionController::class, 'edit'])->name('assignments.edit');
     Route::put('/assignments/{id}', [InstitutionUserPositionController::class, 'update'])->name('assignments.update');
     Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
+    
+    Route::get('/daftar-kelas', [ClassListController::class, 'index'])->name('class_lists.index');
 });
 
 Route::middleware('auth')->group(function () {

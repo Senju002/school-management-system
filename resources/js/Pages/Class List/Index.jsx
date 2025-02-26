@@ -6,59 +6,45 @@ import AddUserModal from "@/Components/Modal/AddUserModal";
 import { useState, useMemo } from "react";
 import Swal from "sweetalert2";
 
-export default function AssignRoles({
-    users,
-    positions,
-    institution_names,
-    assignments,
-    auth,
-    errors,
-}) {
+export default function ClassLists({ class_lists_name, institution_types, institution_names, auth, errors }) {
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
     const { data, setData, post, put, processing, reset } = useForm({
-        user_id: "",
-        position_id: "",
-        institution_id: "",
+        class_name: "",
+        institution_type: "",
+        institution_list: "",
     });
 
-    // Function to find an ID based on a name
+    // Function to get an ID based on a name
     const getIdByName = (list, key, value) => {
         return list.find((item) => item[key] === value)?.id || "";
     };
 
+    // Handle Add button click
     const handleAddClick = () => {
-        reset(); // Instead of manually resetting each field
+        reset();
         setShowModal(true);
         setIsEditMode(false);
     };
+
+    // Handle Edit button click
     const handleEditClick = (rowData) => {
-        console.log("rowdata", rowData);
         setShowModal(true);
         setIsEditMode(true);
         setData({
             id: rowData.id,
-            user_id: getIdByName(users, "name", rowData.user),
-            position_id: getIdByName(
-                positions,
-                "position_name",
-                rowData.position
-            ),
-            institution_id: getIdByName(
-                institution_names,
-                "ins_name",
-                rowData.institution
-            ),
+            class_name: rowData.class_name,
+            institution_type: rowData.institution_type,
         });
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
-        // e.preventDefault();
         const method = isEditMode ? put : post;
         const routeName = isEditMode
-            ? route("assignments.update", { id: data.id })
-            : route("assignments.store");
+            ? route("classlists.update", { id: data.id })
+            : route("classlists.store");
 
         method(routeName, data, {
             onSuccess: () => {
@@ -66,22 +52,21 @@ export default function AssignRoles({
                 setShowModal(false);
                 Swal.fire({
                     icon: "success",
-                    title: isEditMode ? "Updated!" : "Assigned!",
-                    text: `Role ${
-                        isEditMode ? "updated" : "assigned"
-                    } successfully!`,
+                    title: isEditMode ? "Updated!" : "Added!",
+                    text: `Class ${isEditMode ? "updated" : "added"} successfully!`,
                 });
             },
             onError: (error) => {
                 Swal.fire({
                     icon: "error",
                     title: "Error!",
-                    text: error.user_id || "Something went wrong!",
+                    text: error.class_name || "Something went wrong!",
                 });
             },
         });
     };
 
+    // Handle Delete button click
     const handleDelete = (id) => {
         Swal.fire({
             title: "Are you sure?",
@@ -93,46 +78,34 @@ export default function AssignRoles({
             confirmButtonText: "Yes, delete it!",
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route("assignments.destroy", { id }), {
+                router.delete(route("classlists.destroy", { id }), {
                     onSuccess: () => {
-                        Swal.fire(
-                            "Deleted!",
-                            "Assignment has been deleted.",
-                            "success"
-                        );
+                        Swal.fire("Deleted!", "Class has been deleted.", "success");
                     },
                     onError: () => {
-                        Swal.fire(
-                            "Error!",
-                            "Failed to delete assignment.",
-                            "error"
-                        );
+                        Swal.fire("Error!", "Failed to delete class.", "error");
                     },
                 });
             }
         });
     };
-
-    // Memoized transformation of assignments data
+    // Memoized transformation of class lists data
     const tableData = useMemo(() => {
-        return assignments.map((item) => ({
+        return class_lists_name.map((item) => ({
             id: item.id,
-            user: item.user?.name || "Unknown",
-            position: item.position?.position_name || "Unknown",
-            institution: item.institution?.ins_name || "Unknown",
+            class_name: item.class_name,
+            institution_list: item.institution_type?.ins_type_name || "Unknown",
+            institution_type: item.institution_list?.ins_name    || "Unknown",
         }));
-    }, [assignments]);
-
-    console.log("ayam", institution_names);
-    console.log(positions);
+    }, [class_lists_name]);
 
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
-            <Head title="Assign Roles" />
-            <Header title="Assign Roles" />
+            <Head title="Class Lists" />
+            <Header title="Class Lists" />
             <div className="w-full px-4 mt-8">
                 <Table
-                    title="Assigned Roles"
+                    title="Class Lists"
                     data={tableData}
                     onAddClick={handleAddClick}
                     handleDelete={handleDelete}
@@ -142,15 +115,14 @@ export default function AssignRoles({
                     <AddUserModal
                         showModal={showModal}
                         onClose={() => setShowModal(false)}
-                        title="Assignments"
+                        title="Class"
                         data={data}
                         setData={setData}
                         handleSubmit={handleSubmit}
                         processing={processing}
                         isEditMode={isEditMode}
-                        users={users}
-                        positions={positions}
                         institution_names={institution_names}
+                        institution_types={institution_types}
                     />
                 )}
             </div>

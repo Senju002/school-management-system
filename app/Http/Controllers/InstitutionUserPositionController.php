@@ -17,7 +17,7 @@ class InstitutionUserPositionController extends Controller
             'assignments' => InstitutionUserPosition::with(['position', 'institution', 'user'])->get(),
             'users' => User::orderBy('created_at', 'asc')->get(),
             'positions' => Position::orderBy('created_at', 'asc')->get(),
-            'institutions' => InstitutionList::orderBy('created_at', 'asc')->get(),
+            'institution_names' => InstitutionList::orderBy('created_at', 'asc')->get(),
         ]);
     }
 

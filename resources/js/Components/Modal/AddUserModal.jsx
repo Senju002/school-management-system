@@ -40,7 +40,7 @@ const fieldsConfig = {
             key: "institution_id",
             label: "Institution",
             type: "dropdown",
-            source: "institutions",
+            source: "institution_names",
         },
         { key: "lab_name", label: "Name" },
     ],

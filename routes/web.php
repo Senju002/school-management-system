@@ -88,6 +88,7 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
     
     Route::get('/daftar-kelas', [ClassListController::class, 'index'])->name('class_lists.index');
+    Route::post('/daftar-kelas', [ClassListController::class, 'store'])->name('class_lists.store');
 });
 
 Route::middleware('auth')->group(function () {

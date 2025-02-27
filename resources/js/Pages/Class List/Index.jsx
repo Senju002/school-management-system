@@ -11,9 +11,9 @@ export default function ClassLists({ class_lists_name, institution_types, instit
     const [isEditMode, setIsEditMode] = useState(false);
 
     const { data, setData, post, put, processing, reset } = useForm({
+        ins_id: "",
+        ins_type_id: "",
         class_name: "",
-        institution_type: "",
-        institution_list: "",
     });
 
     // Function to get an ID based on a name
@@ -41,10 +41,12 @@ export default function ClassLists({ class_lists_name, institution_types, instit
 
     // Handle form submission
     const handleSubmit = (e) => {
+        e.preventDefault();
+
         const method = isEditMode ? put : post;
         const routeName = isEditMode
             ? route("classlists.update", { id: data.id })
-            : route("classlists.store");
+            : route("class_lists.store");
 
         method(routeName, data, {
             onSuccess: () => {

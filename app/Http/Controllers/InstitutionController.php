@@ -74,7 +74,7 @@ class InstitutionController extends Controller
     public function destroyJenis(InstitutionType $id)
     {
         $id->delete();
-        return redirect()->back()->with('success', 'Laboratorium deleted successfully.');
+        return redirect()->back()->with('success', 'Institusi deleted successfully.');
     }
 
     // ✅ Store new Group Institusi

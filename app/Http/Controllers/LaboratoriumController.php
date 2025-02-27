@@ -29,13 +29,13 @@ class LaboratoriumController extends Controller
         $prefix = 'L';
         $lastEntry = Laboratorium::select('id')->get()->map(function ($item) use ($prefix) {
             return (int) str_replace($prefix, '', $item->id);
-        })->max(); 
+        })->max();
         $newIdNumber = $lastEntry ? $lastEntry + 1 : 1;
         $newId = $prefix . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
 
         // Insert into database
         Laboratorium::create([
-            'id' => $newId, 
+            'id' => $newId,
             'institution_id' => $request->institution_id,
             'lab_name' => $request->lab_name,
         ]);
@@ -54,10 +54,12 @@ class LaboratoriumController extends Controller
         $validated = $request->validate([
             'id' => 'required|string|max:255',
             'lab_name' => 'required|string|max:255',
+            'institution_id' => 'required|exists:institution_lists,id',
         ]);
 
         $id->id = $validated['id'];
         $id->lab_name = $validated['lab_name'];
+        $id->institution_id = $validated['institution_id'];
         $id->save();
 
         return redirect()->back()->with('success', 'Laboratorium added successfully.');

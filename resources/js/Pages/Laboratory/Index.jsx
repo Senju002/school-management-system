@@ -28,12 +28,13 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
     };
     // Handle Edit button click
     const handleEditClick = (rowData) => {
+        console.log(rowData)
         setShowModal(true);
         setIsEditMode(true);
         setData({
             id: rowData.id,
             lab_name: rowData.lab_name,
-            institution_id: getIdByName(institutions, "ins_name", rowData.institution),
+            institution_id: getIdByName(institutions, "ins_name", rowData.ins_name),
         });
     };
 
@@ -92,10 +93,9 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
         return institutions_name.map((item) => ({
             id: item.id,
             lab_name: item.lab_name,
-            institution: item.institution?.ins_name || "Unknown",
+            ins_name: item.institution?.ins_name || "Unknown",
         }));
     }, [institutions_name]);
-
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
             <Head title="Laboratorium" />
@@ -118,7 +118,7 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
                         handleSubmit={handleSubmit}
                         processing={processing}
                         isEditMode={isEditMode}
-                        institutions={institutions}
+                        institution_names={institutions}
                     />
                 )}
             </div>

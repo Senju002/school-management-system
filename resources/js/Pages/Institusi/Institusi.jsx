@@ -24,7 +24,6 @@ export default function Institusi({
     };
 
     const { data, setData, post, put, processing, reset } = useForm({});
-    console.log("oy",formTemplates)
 
     // Open modal for adding new data
     const handleAddClick = (type) => {
@@ -98,6 +97,8 @@ export default function Institusi({
 
     // Handle delete with confirmation
     const handleDelete = (id, title) => {
+        console.log("taik", id)
+        console.log("taik", title)
         Swal.fire({
             title: "Are you sure?",
             text: "This action cannot be undone!",
@@ -123,7 +124,7 @@ export default function Institusi({
                     default:
                         return;
                 }
-
+                console.log("Generated Route:", route("institusi.destroyJenis", { id }));
                 router.delete(routeName, {
                     onSuccess: () => {
                         Swal.fire(
@@ -133,6 +134,7 @@ export default function Institusi({
                         );
                     },
                     onError: () => {
+                        console.log("sayr", routeName);
                         Swal.fire(
                             "Error!",
                             "Failed to delete institusi.",

@@ -54,20 +54,26 @@ export default function AssignRoles({
     };
 
     const handleSubmit = (e) => {
-        // e.preventDefault();
-        const method = isEditMode ? put : post;
+        e.preventDefault();
+    
+        const method = isEditMode ? "put" : "post";
         const routeName = isEditMode
             ? route("assignments.update", { id: data.id })
             : route("assignments.store");
-
-        method(routeName, data, {
+    
+        // Remove ID field for new inserts
+        const payload = { ...data };
+        if (!isEditMode) delete payload.id;
+    
+        // Send request
+        router[method](routeName, payload, {
             onSuccess: () => {
                 reset();
                 setShowModal(false);
                 Swal.fire({
                     icon: "success",
                     title: isEditMode ? "Updated!" : "Assigned!",
-                    text: `Role ${
+                    text: `Assignment ${
                         isEditMode ? "updated" : "assigned"
                     } successfully!`,
                 });
@@ -122,10 +128,6 @@ export default function AssignRoles({
             institution: item.institution?.ins_name || "Unknown",
         }));
     }, [assignments]);
-
-    console.log("ayam", institution_names);
-    console.log(positions);
-
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
             <Head title="Assign Roles" />

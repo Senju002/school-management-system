@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PositionSeeder::class);
         $this->call(PositionGradeSeeder::class);
         $this->call(InstitusiSeeder::class);
-        $this->call(LaboratoriumSeeder::class);
+        $this->call(LaboratorySeeder::class);
         $this->call(InstitutionUserPositionSeeder::class);
         $this->call(ClassListSeeder::class);
     }

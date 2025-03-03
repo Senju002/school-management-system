@@ -9,8 +9,7 @@ use App\Http\Controllers\ClassListController;
 use App\Http\Controllers\InstitutionController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\LaboratoriumController;
-use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\InstitutionUserPositionController;
 use App\Http\Controllers\Neon;
 
@@ -74,10 +73,10 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/position', [PositionController::class, "index"])->name('position.index');
 
     // laboratorium Routes
-    Route::get('/laboratorium', [LaboratoriumController::class, "index"])->name('laboratorium.index');
-    Route::post('/laboratorium/store', [LaboratoriumController::class, "store"])->name('laboratorium.store');
-    Route::put('/laboratorium/update{id}', [LaboratoriumController::class, "update"])->name('laboratorium.update');
-    Route::delete('/laboratorium/destroy{id}', [LaboratoriumController::class, "destroy"])->name('laboratorium.destroy');
+    Route::get('/laboratorium', [LaboratoryController::class, "index"])->name('laboratorium.index');
+    Route::post('/laboratorium/store', [LaboratoryController::class, "store"])->name('laboratorium.store');
+    Route::put('/laboratorium/update{id}', [LaboratoryController::class, "update"])->name('laboratorium.update');
+    Route::delete('/laboratorium/destroy{id}', [LaboratoryController::class, "destroy"])->name('laboratorium.destroy');
 
 
     // Route to display the Assign Roles page

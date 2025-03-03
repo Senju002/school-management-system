@@ -37,7 +37,7 @@ const fieldsConfig = {
     Laboratorium: [
         { key: "id", label: "ID" },
         {
-            key: "institution_id",
+            key: "ins_id",
             label: "Institution",
             type: "dropdown",
             source: "institution_names",

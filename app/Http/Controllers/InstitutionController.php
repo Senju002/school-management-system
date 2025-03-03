@@ -13,7 +13,7 @@ class InstitutionController extends Controller
     // Show the Institusi page with data
     public function index()
     {
-        return Inertia::render('Institusi/Institusi', [
+        return Inertia::render('Institution/Index', [
             'jenisInstitusi' => InstitutionType::orderBy('created_at', 'asc')->get(),
             'groupInstitusi' => InstitutionGroup::orderBy('created_at', 'asc')->get(),
             'daftarInstitusi' => InstitutionList::orderBy('created_at', 'asc')->get(),

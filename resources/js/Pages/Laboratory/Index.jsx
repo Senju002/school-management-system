@@ -12,7 +12,7 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
 
     const { data, setData, post, put, processing, reset } = useForm({
         lab_name: "",
-        institution_id: "",
+        ins_id: "",
     });
 
     // Function to get an ID based on a name
@@ -34,19 +34,27 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
         setData({
             id: rowData.id,
             lab_name: rowData.lab_name,
-            institution_id: getIdByName(institutions, "ins_name", rowData.ins_name),
+            ins_id: getIdByName(institutions, "ins_name", rowData.ins_name),
         });
     };
 
     // Handle form submission
     const handleSubmit = (e) => {
-        const method = isEditMode ? put : post;
+        e.preventDefault();
+    
+        const method = isEditMode ? "put" : "post";
         const routeName = isEditMode
             ? route("laboratorium.update", { id: data.id })
             : route("laboratorium.store");
-
-        method(routeName, data, {
+    
+        // Remove ID field for new inserts
+        const payload = { ...data };
+        if (!isEditMode) delete payload.id;
+    
+        // Send request
+        router[method](routeName, payload, {
             onSuccess: () => {
+                console.log("Success! Data saved.");
                 reset();
                 setShowModal(false);
                 Swal.fire({
@@ -56,6 +64,7 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
                 });
             },
             onError: (error) => {
+                console.error("Error:", error);
                 Swal.fire({
                     icon: "error",
                     title: "Error!",
@@ -64,6 +73,7 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
             },
         });
     };
+    
 
     // Handle Delete button click
     const handleDelete = (id) => {

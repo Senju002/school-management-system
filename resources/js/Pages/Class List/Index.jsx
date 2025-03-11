@@ -35,20 +35,33 @@ export default function ClassLists({ class_lists_name, institution_types, instit
         setData({
             id: rowData.id,
             class_name: rowData.class_name,
-            institution_type: rowData.institution_type,
+            ins_id: getIdByName(
+                institution_names,
+                "ins_name",
+                rowData.institution_list
+            ),
+            ins_type_id: getIdByName(
+                institution_types,
+                "ins_type_name",
+                rowData.institution_type
+            ),
         });
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const method = isEditMode ? put : post;
+    
+        const method = isEditMode ? "put" : "post";
         const routeName = isEditMode
-            ? route("classlists.update", { id: data.id })
+            ? route("class_lists.update", { id: data.id })
             : route("class_lists.store");
-
-        method(routeName, data, {
+    
+        // Remove ID field for new inserts
+        const payload = { ...data };
+        if (!isEditMode) delete payload.id;
+    
+        // Send request
+        router[method](routeName, payload, {
             onSuccess: () => {
                 reset();
                 setShowModal(false);
@@ -67,6 +80,7 @@ export default function ClassLists({ class_lists_name, institution_types, instit
             },
         });
     };
+    
 
     // Handle Delete button click
     const handleDelete = (id) => {
@@ -80,7 +94,7 @@ export default function ClassLists({ class_lists_name, institution_types, instit
             confirmButtonText: "Yes, delete it!",
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route("classlists.destroy", { id }), {
+                router.delete(route("class_lists.destroy", { id }), {
                     onSuccess: () => {
                         Swal.fire("Deleted!", "Class has been deleted.", "success");
                     },
@@ -96,8 +110,8 @@ export default function ClassLists({ class_lists_name, institution_types, instit
         return class_lists_name.map((item) => ({
             id: item.id,
             class_name: item.class_name,
-            institution_list: item.institution_type?.ins_type_name || "Unknown",
-            institution_type: item.institution_list?.ins_name    || "Unknown",
+            institution_type: item.institution_type?.ins_type_name || "Unknown",
+            institution_list: item.institution_list?.ins_name    || "Unknown",
         }));
     }, [class_lists_name]);
 
@@ -117,7 +131,7 @@ export default function ClassLists({ class_lists_name, institution_types, instit
                     <AddUserModal
                         showModal={showModal}
                         onClose={() => setShowModal(false)}
-                        title="Class"
+                        title="Class List"
                         data={data}
                         setData={setData}
                         handleSubmit={handleSubmit}

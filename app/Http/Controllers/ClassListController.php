@@ -22,17 +22,18 @@ class ClassListController extends Controller
     }
 
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
-            'ins_id' => 'required|exists:institution_lists,id', 
-            'ins_type_id' => 'required|exists:institution_type,id', 
-            'class_name' => 'required|string|max:255', 
+            'ins_id' => 'required|exists:institution_lists,id',
+            'ins_type_id' => 'required|exists:institution_type,id',
+            'class_name' => 'required|string|max:255',
         ]);
 
         $prefix = 'K';
         $lastEntry = ClassList::select('id')->get()->map(function ($item) use ($prefix) {
             return (int) str_replace($prefix, '', $item->id);
-        })->max(); 
+        })->max();
         $newIdNumber = $lastEntry ? $lastEntry + 1 : 1;
         $newId = $prefix . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
 
@@ -44,5 +45,43 @@ class ClassListController extends Controller
         ]);
 
         return redirect()->route('class_lists.index')->with('success', 'Daftar Kelas Berhasil Ditambahkan!');
+    }
+
+    public function edit(ClassList $id)
+    {
+        $ClassList = ClassList::findOrFail($id);
+        return response()->json($ClassList);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'ins_id' => 'required|exists:institution_lists,id',
+            'ins_type_id' => 'required|exists:institution_type,id',
+            'class_name' => 'required|string|max:255',
+        ]);
+
+        // Find the record by ID
+        $ClassList = ClassList::findOrFail($id);
+
+        $ClassList->update([
+            'ins_id' => $request->ins_id,
+            'ins_type_id' => $request->ins_type_id,
+            'class_name' => $request->class_name,
+        ]);
+
+        return redirect()->back()->with('success', 'Laboratory added successfully.');
+    }
+
+    public function destroy($id)
+    {
+        // Find the record by ID
+        $ClassList = ClassList::findOrFail($id);
+
+        // Delete the record
+        $ClassList->delete();
+
+        // Return a success response
+        return redirect()->route('class_lists.index')->with('success', 'User assigned successfully!');
     }
 }

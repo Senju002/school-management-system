@@ -88,6 +88,9 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     
     Route::get('/daftar-kelas', [ClassListController::class, 'index'])->name('class_lists.index');
     Route::post('/daftar-kelas', [ClassListController::class, 'store'])->name('class_lists.store');
+    Route::get('/daftar-kelas/{id}/edit', [ClassListController::class, 'edit'])->name('class_lists.edit');
+    Route::put('/daftar-kelas/{id}', [ClassListController::class, 'update'])->name('class_lists.update');
+    Route::delete('/daftar-kelas/{id}', [ClassListController::class, 'destroy'])->name('class_lists.destroy');
 });
 
 Route::middleware('auth')->group(function () {

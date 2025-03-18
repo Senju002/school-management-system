@@ -51,18 +51,18 @@ export default function Institusi({
         switch (modalTitle) {
             case "Jenis Institusi":
                 routeName = isEditMode
-                    ? route("institusi.updateJenis", { id: data.id })
-                    : route("institusi.storeJenis");
+                    ? route("institution.updateType", { id: data.id })
+                    : route("institution.storeType");
                 break;
             case "Group Institusi":
                 routeName = isEditMode
-                    ? route("institusi.updateGroup", { id: data.id })
-                    : route("institusi.storeGroup");
+                    ? route("institution.updateGroup", { id: data.id })
+                    : route("institution.storeGroup");
                 break;
             case "Daftar Institusi":
                 routeName = isEditMode
-                    ? route("institusi.updateDaftar", { id: data.id })
-                    : route("institusi.storeDaftar");
+                    ? route("institution.updateList", { id: data.id })
+                    : route("institution.storeList");
                 break;
             default:
                 return;
@@ -97,8 +97,6 @@ export default function Institusi({
 
     // Handle delete with confirmation
     const handleDelete = (id, title) => {
-        console.log("taik", id)
-        console.log("taik", title)
         Swal.fire({
             title: "Are you sure?",
             text: "This action cannot be undone!",
@@ -113,18 +111,17 @@ export default function Institusi({
 
                 switch (title) {
                     case "Jenis Institusi":
-                        routeName = route("institusi.destroyJenis", { id });
+                        routeName = route("institution.destroyType", { id });
                         break;
                     case "Group Institusi":
-                        routeName = route("institusi.destroyGroup", { id });
+                        routeName = route("institution.destroyGroup", { id });
                         break;
                     case "Daftar Institusi":
-                        routeName = route("institusi.destroyDaftar", { id });
+                        routeName = route("institution.destroyList", { id });
                         break;
                     default:
                         return;
                 }
-                console.log("Generated Route:", route("institusi.destroyJenis", { id }));
                 router.delete(routeName, {
                     onSuccess: () => {
                         Swal.fire(
@@ -134,7 +131,6 @@ export default function Institusi({
                         );
                     },
                     onError: () => {
-                        console.log("sayr", routeName);
                         Swal.fire(
                             "Error!",
                             "Failed to delete institusi.",

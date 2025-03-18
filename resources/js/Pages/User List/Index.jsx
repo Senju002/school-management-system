@@ -37,7 +37,7 @@ export default function DaftarUser({ users, auth, errors }) {
         }
 
         const action = data.id ? put : post;
-        const routeName = data.id ? "user.update" : "user.store";
+        const routeName = data.id ? "user_lists.update" : "user_lists.store";
 
         action(route(routeName, { id: data.id }), {
             data: formData,
@@ -74,7 +74,7 @@ export default function DaftarUser({ users, auth, errors }) {
             confirmButtonText: "Yes, delete it!",
         }).then((result) => {
             if (result.isConfirmed) {
-                router.delete(route("user.destroy", { id }), {
+                router.delete(route("user_lists.destroy", { id }), {
                     onSuccess: () => {
                         Swal.fire("Deleted!", "User has been deleted.", "success");
                     },

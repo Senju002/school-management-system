@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,55 +43,63 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     // Institution Routes
-    Route::get('/institusi', [InstitutionController::class, 'index'])->name('institusi.index');
+    Route::get('/institution', [InstitutionController::class, 'index'])->name('institution.index');
 
     // Institution Jenis Routes
-    Route::post('/institusi/jenis', [InstitutionController::class, 'storeJenis'])->name('institusi.storeJenis');
-    Route::get('/institusi/jenis/{id}/edit', [InstitutionController::class, 'editJenis'])->name('institusi.editJenis');
-    Route::put('/institusi/jenis/{id}', [InstitutionController::class, 'updateJenis'])->name('institusi.updateJenis');
-    Route::delete('/institusi/jenis/{id}', [InstitutionController::class, 'destroyJenis'])->name('institusi.destroyJenis');
+    Route::post('/institution/type', [InstitutionController::class, 'storeType'])->name('institution.storeType');
+    Route::get('/institution/type/{id}/edit', [InstitutionController::class, 'editType'])->name('institution.editType');
+    Route::put('/institution/type/{id}', [InstitutionController::class, 'updateType'])->name('institution.updateType');
+    Route::delete('/institution/type/{id}', [InstitutionController::class, 'destroyType'])->name('institution.destroyType');
 
     // Institution Group Routes
-    Route::post('/institusi/group', [InstitutionController::class, 'storeGroup'])->name('institusi.storeGroup');
-    Route::get('/institusi/group/{id}/edit', [InstitutionController::class, 'editGroup'])->name('institusi.editGroup');
-    Route::put('/institusi/group/{id}', [InstitutionController::class, 'updateGroup'])->name('institusi.updateGroup');
-    Route::delete('/institusi/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institusi.destroyGroup');
+    Route::post('/institution/group', [InstitutionController::class, 'storeGroup'])->name('institution.storeGroup');
+    Route::get('/institution/group/{id}/edit', [InstitutionController::class, 'editGroup'])->name('institution.editGroup');
+    Route::put('/institution/group/{id}', [InstitutionController::class, 'updateGroup'])->name('institution.updateGroup');
+    Route::delete('/institution/group/{id}', [InstitutionController::class, 'destroyGroup'])->name('institution.destroyGroup');
 
     // Institution Daftar Routes
-    Route::post('/institusi/daftar', [InstitutionController::class, 'storeDaftar'])->name('institusi.storeDaftar');
-    Route::get('/institusi/daftar/{id}/edit', [InstitutionController::class, 'editDaftar'])->name('institusi.editDaftar');
-    Route::put('/institusi/daftar/{id}', [InstitutionController::class, 'updateDaftar'])->name('institusi.updateDaftar');
-    Route::delete('/institusi/daftar/{id}', [InstitutionController::class, 'destroyDaftar'])->name('institusi.destroyDaftar');
+    Route::post('/institution/list', [InstitutionController::class, 'storeList'])->name('institution.storeList');
+    Route::get('/institution/list/{id}/edit', [InstitutionController::class, 'editList'])->name('institution.editList');
+    Route::put('/institution/list/{id}', [InstitutionController::class, 'updateList'])->name('institution.updateList');
+    Route::delete('/institution/list/{id}', [InstitutionController::class, 'destroyList'])->name('institution.destroyList');
 
 
     // Daftar User Routes
-    Route::get('/daftar-user', [UserController::class, 'index'])->name('user.index');
-    Route::post('/daftar-user/store', [UserController::class, 'store'])->name('user.store');
-    Route::put('/daftar-user/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/daftar-user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/user_lists', [UserController::class, 'index'])->name('user_lists.index');
+    Route::post('/user_lists/store', [UserController::class, 'store'])->name('user_lists.store');
+    Route::put('/user_lists/update/{id}', [UserController::class, 'update'])->name('user_lists.update');
+    Route::delete('/user_lists/destroy/{id}', [UserController::class, 'destroy'])->name('user_lists.destroy');
 
     // Position Routes
     Route::get('/position', [PositionController::class, "index"])->name('position.index');
 
     // laboratorium Routes
-    Route::get('/laboratorium', [LaboratoryController::class, "index"])->name('laboratorium.index');
-    Route::post('/laboratorium/store', [LaboratoryController::class, "store"])->name('laboratorium.store');
-    Route::put('/laboratorium/update{id}', [LaboratoryController::class, "update"])->name('laboratorium.update');
-    Route::delete('/laboratorium/destroy{id}', [LaboratoryController::class, "destroy"])->name('laboratorium.destroy');
+    Route::get('/laboratory', [LaboratoryController::class, "index"])->name('laboratory.index');
+    Route::post('/laboratory/store', [LaboratoryController::class, "store"])->name('laboratory.store');
+    Route::put('/laboratory/update{id}', [LaboratoryController::class, "update"])->name('laboratory.update');
+    Route::delete('/laboratory/destroy{id}', [LaboratoryController::class, "destroy"])->name('laboratory.destroy');
 
 
-    // Route to display the Assign Roles page
+    // Roles page
     Route::get('/assignments', [InstitutionUserPositionController::class, 'index'])->name('assignments.index');
     Route::post('/assignments', [InstitutionUserPositionController::class, 'store'])->name('assignments.store');
     Route::get('/assignments/{id}/edit', [InstitutionUserPositionController::class, 'edit'])->name('assignments.edit');
     Route::put('/assignments/{id}', [InstitutionUserPositionController::class, 'update'])->name('assignments.update');
     Route::delete('/assignments/{id}', [InstitutionUserPositionController::class, 'destroy'])->name('assignments.destroy');
-    
-    Route::get('/daftar-kelas', [ClassListController::class, 'index'])->name('class_lists.index');
-    Route::post('/daftar-kelas', [ClassListController::class, 'store'])->name('class_lists.store');
-    Route::get('/daftar-kelas/{id}/edit', [ClassListController::class, 'edit'])->name('class_lists.edit');
-    Route::put('/daftar-kelas/{id}', [ClassListController::class, 'update'])->name('class_lists.update');
-    Route::delete('/daftar-kelas/{id}', [ClassListController::class, 'destroy'])->name('class_lists.destroy');
+
+    // Class List Routes
+    Route::get('/class_lists', [ClassListController::class, 'index'])->name('class_lists.index');
+    Route::post('/class_lists', [ClassListController::class, 'store'])->name('class_lists.store');
+    Route::get('/class_lists/{id}/edit', [ClassListController::class, 'edit'])->name('class_lists.edit');
+    Route::put('/daftarclass_lists{id}', [ClassListController::class, 'update'])->name('class_lists.update');
+    Route::delete('/class_lists/{id}', [ClassListController::class, 'destroy'])->name('class_lists.destroy');
+
+    // Academic Year
+    Route::get('/academic_years', [AcademicYearController::class, 'index'])->name('academic_years.index');
+    Route::post('/academic_years', [AcademicYearController::class, 'store'])->name('academic_years.store');
+    Route::get('/academic_years/{id}/edit', [AcademicYearController::class, 'edit'])->name('academic_years.edit');
+    Route::put('/academic_years/{id}', [AcademicYearController::class, 'update'])->name('academic_years.update');
+    Route::delete('/academic_years/{id}', [AcademicYearController::class, 'destroy'])->name('academic_years.destroy');
 });
 
 Route::middleware('auth')->group(function () {

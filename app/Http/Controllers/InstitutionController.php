@@ -21,7 +21,7 @@ class InstitutionController extends Controller
     }
 
     // ✅ Store new Jenis Institusi
-    public function storeJenis(Request $request)
+    public function storeType(Request $request)
     {
         $request->validate([
             'ins_type_name' => 'required|string|max:255',
@@ -44,19 +44,19 @@ class InstitutionController extends Controller
             'ins_type_name' => $request->ins_type_name,
         ]);
 
-        return redirect()->route('institusi.index')->with('success', 'Jenis Institusi added successfully.');
+        return redirect()->route('institution.index')->with('success', 'Jenis Institusi added successfully.');
     }
 
 
     // ✅ Edit Jenis Institusi
-    public function editJenis(InstitutionType $id)
+    public function editType(InstitutionType $id)
     {
         $jenisInstitusi = InstitutionType::findOrFail($id);
         return response()->json($jenisInstitusi);
     }
 
     // ✅ Update Jenis Institusi
-    public function updateJenis(Request $request, InstitutionType $id)
+    public function updateType(Request $request, InstitutionType $id)
     {
         $validated = $request->validate([
             'id' => 'required|string|max:255',
@@ -71,7 +71,7 @@ class InstitutionController extends Controller
     }
 
     // ✅ Delete Jenis Institusi
-    public function destroyJenis(InstitutionType $id)
+    public function destroyType(InstitutionType $id)
     {
         $id->delete();
         return redirect()->back()->with('success', 'Institusi deleted successfully.');
@@ -101,7 +101,7 @@ class InstitutionController extends Controller
             'ins_group_name' => $request->ins_group_name,
         ]);
 
-        return redirect()->route('institusi.index')->with('success', 'Group Institusi added successfully.');
+        return redirect()->route('institution.index')->with('success', 'Group Institusi added successfully.');
     }
 
 
@@ -136,7 +136,7 @@ class InstitutionController extends Controller
     }
 
     // ✅ Store new Daftar Institusi
-    public function storeDaftar(Request $request)
+    public function storeList(Request $request)
     {
         $request->validate([
             'ins_name' => 'required|string|max:255',
@@ -159,18 +159,18 @@ class InstitutionController extends Controller
             'ins_name' => $request->ins_name,
         ]);
 
-        return redirect()->route('institusi.index')->with('success', 'Institusi added successfully.');
+        return redirect()->route('institution.index')->with('success', 'Institusi added successfully.');
     }
 
     // ✅ Edit Daftar Institusi
-    public function editDaftar($id)
+    public function editList($id)
     {
         $daftarInstitusi = InstitutionList::findOrFail($id);
         return response()->json($daftarInstitusi);
     }
 
     // ✅ Update Daftar Institusi
-    public function updateDaftar(Request $request, $id)
+    public function updateList(Request $request, $id)
     {
         $request->validate([
             'ins_name' => 'required|string|max:255',
@@ -181,11 +181,11 @@ class InstitutionController extends Controller
             'ins_name' => $request->ins_name,
         ]);
 
-        return redirect()->route('institusi.index')->with('success', 'Daftar Institusi updated successfully.');
+        return redirect()->route('institution.index')->with('success', 'Daftar Institusi updated successfully.');
     }
 
     // ✅ Delete Daftar Institusi
-    public function destroyDaftar(InstitutionList $id)
+    public function destroyList(InstitutionList $id)
     {
         $id->delete();
         return redirect()->back()->with('success', 'Laboratorium deleted successfully.');

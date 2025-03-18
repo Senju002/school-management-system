@@ -27,11 +27,11 @@ const fieldsConfig = {
         { key: "name", label: "Name" },
         { key: "email", label: "Email", type: "email" },
         { key: "role", label: "Role", type: "dropdown", source: "roles" },
-        { key: "password", label: "Password", type: "password" },
+        { key: "password", label: "Password", type: "password" }, // Password field
         {
             key: "password_confirmation",
             label: "Confirm Password",
-            type: "password",
+            type: "password", // Confirm password field
         },
     ],
     Laboratorium: [
@@ -59,6 +59,10 @@ const fieldsConfig = {
             type: "dropdown",
             source: "institution_names",
         },
+    ],
+    "Academic Year": [
+        { key: "id", label: "ID" },
+        { key: "ac_years", label: "Academic Year" },
     ],
 };
 
@@ -115,36 +119,7 @@ const AddUserModal = ({
         }),
         [users, positions, institution_names, institution_types]
     );
-    // const renderFormField = ({ key, label, type, source }) => {
-    //     if (type === "dropdown") {
-    //         const options = dropdownOptions[source] || [];
-    //         return (
-    //             <Select
-    //                 options={options}
-    //                 value={
-    //                     options.find((option) => option.value === data[key]) ||
-    //                     null
-    //                 }
-    //                 onChange={(selected) =>
-    //                     setData((prev) => ({ ...prev, [key]: selected.value }))
-    //                 }
-    //                 styles={customStyles}
-    //                 placeholder={`Select ${label}`}
-    //                 isSearchable
-    //             />
-    //         );
-    //     }
-    //     return (
-    //         <input
-    //             type="text"
-    //             name="id"
-    //             value={data.id}
-    //             onChange={(e) => setData("id", e.target.value)}
-    //             disabled // This makes the field non-editable
-    //             className="border rounded px-3 py-2 w-full bg-gray-200 cursor-not-allowed"
-    //         />
-    //     );
-    // };
+
     const renderFormField = ({ key, label, type, source }) => {
         if (type === "dropdown") {
             const options = dropdownOptions[source] || [];
@@ -164,10 +139,27 @@ const AddUserModal = ({
                 />
             );
         }
+
+        // Handle password fields
+        if (type === "password") {
+            return (
+                <input
+                    type="password" // Use type="password" to censor the input
+                    name={key}
+                    value={data[key] || ""}
+                    onChange={(e) =>
+                        setData((prev) => ({ ...prev, [key]: e.target.value }))
+                    }
+                    className="border rounded px-3 py-2 w-full"
+                />
+            );
+        }
+
+        // Default text input
         return (
             <input
-                type="text"
-                name={key} // Dynamically set name
+                type={type || "text"} // Use the specified type or default to "text"
+                name={key}
                 value={data[key] || ""}
                 onChange={(e) =>
                     setData((prev) => ({ ...prev, [key]: e.target.value }))
@@ -179,7 +171,7 @@ const AddUserModal = ({
             />
         );
     };
-    console.log("ayam", fieldsConfig);
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">

@@ -131,7 +131,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
-                            <Link href="/institusi  ">
+                            <Link href="/institution">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -142,7 +142,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Institusi
                                 </ListItem>
                             </Link>
-                            <Link href="/daftar-user">
+                            <Link href="/user_lists">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -175,7 +175,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Kelola Jabatan
                                 </ListItem>
                             </Link>
-                            <Link href="/laboratorium">
+                            <Link href="/laboratory">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -186,7 +186,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Daftar Laboratorium
                                 </ListItem>
                             </Link>
-                            <Link href="/level-pegawai">
+                            <Link href="/academic_years">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -230,7 +230,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
-                            <Link href="/tipe-kelas">
+                            <Link href="/class_types">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -241,7 +241,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Tipe Kelas
                                 </ListItem>
                             </Link>
-                            <Link href="/daftar-kelas">
+                            <Link href="/class_lists">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

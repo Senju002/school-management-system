@@ -15,6 +15,10 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
         columns = columns.slice(1, 4);
     } else if (title === 'Class Lists'){
         columns = columns.slice(0, 5);
+    } else if (title === 'Jenis Institusi' || title === 'Group Institusi' || title === 'Daftar Institusi') {
+        columns = columns.slice(0, 2);
+    } else if (title === 'Academic Year'){
+        columns = columns.slice(0,2);
     }
     else {
         // Default: First 3 columns

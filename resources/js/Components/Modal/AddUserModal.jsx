@@ -64,6 +64,16 @@ const fieldsConfig = {
         { key: "id", label: "ID" },
         { key: "ac_years", label: "Academic Year" },
     ],
+    "Subject List": [
+        { key: "id", label: "ID" },
+        {
+            key: "ins_id",
+            label: "Institution",
+            type: "dropdown",
+            source: "institution_names",
+        },
+        { key: "subject_name", label: "Subject Name" },
+    ],
 };
 
 const customStyles = {

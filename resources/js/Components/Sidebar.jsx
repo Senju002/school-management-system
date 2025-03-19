@@ -230,7 +230,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
-                            <Link href="/class_types">
+                            <Link href="/subject_lists">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -238,7 +238,7 @@ export default function Sidebar({ user, classname, auth }) {
                                             className="h-3 w-5"
                                         />
                                     </ListItemPrefix>
-                                    Tipe Kelas
+                                    Daftar Jadwal
                                 </ListItem>
                             </Link>
                             <Link href="/class_lists">

@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\InstitutionUserPositionController;
 use App\Http\Controllers\Neon;
-
+use App\Http\Controllers\SubjectListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +100,13 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/academic_years/{id}/edit', [AcademicYearController::class, 'edit'])->name('academic_years.edit');
     Route::put('/academic_years/{id}', [AcademicYearController::class, 'update'])->name('academic_years.update');
     Route::delete('/academic_years/{id}', [AcademicYearController::class, 'destroy'])->name('academic_years.destroy');
+
+    // Subject List
+    Route::get('/subject_lists', [SubjectListController::class, 'index'])->name('subject_lists.index');
+    Route::post('/subject_lists', [SubjectListController::class, 'store'])->name('subject_lists.store');
+    Route::get('/subject_lists/{id}/edit', [SubjectListController::class, 'edit'])->name('subject_lists.edit');
+    Route::put('/subject_lists/{id}', [SubjectListController::class, 'update'])->name('subject_lists.update');
+    Route::delete('/subject_lists/{id}', [SubjectListController::class, 'destroy'])->name('subject_lists.destroy');
 });
 
 Route::middleware('auth')->group(function () {

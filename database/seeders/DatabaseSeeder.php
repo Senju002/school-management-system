@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\ScheduleList;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ClassListSeeder::class);
         $this->call(AcademicYearSeeder::class);
         $this->call(SubjectListSeeder::class);
+        $this->call(ScheduleListSeeder::class);
     }
 }

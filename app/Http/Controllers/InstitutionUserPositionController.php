@@ -69,7 +69,7 @@ class InstitutionUserPositionController extends Controller
             'institution_id' => $request->institution_id,
         ]);
 
-        return redirect()->route('assignments.index')->with('success', 'User assigned successfully!');
+        return redirect()->route('assignments.index')->with('success', 'User updated successfully!');
     }
 
     public function destroy($id)
@@ -81,6 +81,6 @@ class InstitutionUserPositionController extends Controller
         $institutionUserPosition->delete();
 
         // Return a success response
-        return redirect()->route('assignments.index')->with('success', 'User assigned successfully!');
+        return redirect()->route('assignments.index')->with('success', 'User deleted successfully!');
     }
 }

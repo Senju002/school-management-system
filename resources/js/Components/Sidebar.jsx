@@ -238,10 +238,10 @@ export default function Sidebar({ user, classname, auth }) {
                                             className="h-3 w-5"
                                         />
                                     </ListItemPrefix>
-                                    Daftar Jadwal
+                                    Daftar Mata Pelajaran
                                 </ListItem>
                             </Link>
-                            <Link href="/class_lists">
+                            <Link href="/schedule_lists">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -249,7 +249,7 @@ export default function Sidebar({ user, classname, auth }) {
                                             className="h-3 w-5"
                                         />
                                     </ListItemPrefix>
-                                    Daftar Kelas
+                                    Daftar Jadwal
                                 </ListItem>
                             </Link>
                         </List>

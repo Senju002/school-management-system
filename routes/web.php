@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\InstitutionUserPositionController;
 use App\Http\Controllers\Neon;
+use App\Http\Controllers\ScheduleListController;
 use App\Http\Controllers\SubjectListController;
 
 /*
@@ -107,6 +108,13 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/subject_lists/{id}/edit', [SubjectListController::class, 'edit'])->name('subject_lists.edit');
     Route::put('/subject_lists/{id}', [SubjectListController::class, 'update'])->name('subject_lists.update');
     Route::delete('/subject_lists/{id}', [SubjectListController::class, 'destroy'])->name('subject_lists.destroy');
+
+    // Schedule list
+    Route::get('/schedule_lists', [ScheduleListController::class, 'index'])->name('schedule_lists.index');
+    Route::post('/schedule_lists', [ScheduleListController::class, 'store'])->name('schedule_lists.store');
+    Route::get('/schedule_lists/{id}/edit', [ScheduleListController::class, 'edit'])->name('schedule_lists.edit');
+    Route::put('/schedule_lists/{id}', [ScheduleListController::class, 'update'])->name('schedule_lists.update');
+    Route::delete('/schedule_lists/{id}', [ScheduleListController::class, 'destroy'])->name('schedule_lists.destroy');
 });
 
 Route::middleware('auth')->group(function () {

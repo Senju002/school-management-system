@@ -14,7 +14,24 @@ return new class extends Migration
     public function up()
     {
         Schema::create('schedule_lists', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
+            $table->string('lab_id');
+            $table->string('subject_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('class_id');
+
+            $table->foreign('lab_id')
+                ->references('id')->on('lab_computers')
+                ->onDelete('cascade');
+            $table->foreign('subject_id')
+                ->references('id')->on('subject_lists')
+                ->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->foreign('class_id')
+                ->references('id')->on('class_lists')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

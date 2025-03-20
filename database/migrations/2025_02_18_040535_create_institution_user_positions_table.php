@@ -8,9 +8,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('institution_user_positions', function (Blueprint $table) {
-            // Primary ID for this table (auto-incrementing BIGINT)
             $table->id();
-
             // Use unsignedBigInteger for user_id since users.id is BIGINT (auto-increment)
             $table->unsignedBigInteger('user_id');
 

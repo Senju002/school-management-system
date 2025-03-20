@@ -74,6 +74,22 @@ const fieldsConfig = {
         },
         { key: "subject_name", label: "Subject Name" },
     ],
+    Schedules: [
+        { key: "lab_id", label: "Lab", type: "dropdown", source: "labs" },
+        { key: "user_id", label: "User", type: "dropdown", source: "users" },
+        {
+            key: "subject_id",
+            label: "Subject",
+            type: "dropdown",
+            source: "subjects",
+        },
+        {
+            key: "class_id",
+            label: "Class",
+            type: "dropdown",
+            source: "classes",
+        },
+    ],
 };
 
 const customStyles = {
@@ -102,8 +118,11 @@ const AddUserModal = ({
     processing,
     users = [],
     positions = [],
+    subjects = [],
     institution_names = [],
     institution_types = [],
+    classes = [],
+    labs = [],
 }) => {
     if (!showModal) return null;
 
@@ -112,6 +131,18 @@ const AddUserModal = ({
         () => ({
             roles: roleOptions,
             users: users.map(({ id, name }) => ({ value: id, label: name })),
+            labs: labs.map(({ id, lab_name }) => ({
+                value: id,
+                label: lab_name,
+            })),
+            subjects: subjects.map(({ id, subject_name }) => ({
+                value: id,
+                label: subject_name,
+            })),
+            classes: classes.map(({ id, class_name }) => ({
+                value: id,
+                label: class_name,
+            })),
             positions: positions.map(({ id, position_name }) => ({
                 value: id,
                 label: position_name,
@@ -127,7 +158,7 @@ const AddUserModal = ({
                 })
             ),
         }),
-        [users, positions, institution_names, institution_types]
+        [users, positions, institution_names, institution_types, subjects]
     );
 
     const renderFormField = ({ key, label, type, source }) => {

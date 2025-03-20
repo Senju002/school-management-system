@@ -11,17 +11,19 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
     // Determine column selection logic
     let columns = Object.keys(data[0]);
     if (title === "Assigned Roles") {
-        // Select columns 2 to 4 (slice from index 1 to 4)
         columns = columns.slice(1, 4);
-    } else if (title === 'Class Lists'){
+    } else if (title === "Class Lists") {
         columns = columns.slice(0, 5);
-    } else if (title === 'Jenis Institusi' || title === 'Group Institusi' || title === 'Daftar Institusi') {
+    } else if (
+        title === "Jenis Institusi" ||
+        title === "Group Institusi" ||
+        title === "Daftar Institusi" ||
+        title === "Academic Year"
+    ) {
         columns = columns.slice(0, 2);
-    } else if (title === 'Academic Year'){
-        columns = columns.slice(0,2);
-    }
-    else {
-        // Default: First 3 columns
+    } else if (title === "Schedules") {
+        columns = columns.slice(1, 5);
+    } else {
         columns = columns.slice(0, 3);
     }
 

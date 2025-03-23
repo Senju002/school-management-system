@@ -82,7 +82,7 @@ class ScheduleListController extends Controller
             'class_id'   => $request->class_id,
         ]);
 
-        return redirect()->route('schedule_lists.index')->with('success', 'User assigned successfully!');
+        return redirect()->route('schedule_lists.index')->with('success', 'Schedule updated successfully!');
     }
 
     public function destroy($id)

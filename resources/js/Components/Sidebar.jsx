@@ -285,7 +285,7 @@ export default function Sidebar({ user, classname, auth }) {
                     </ListItem>
                     <AccordionBody className="py-1 ">
                         <List className="p-0 text-textColor ">
-                            <Link href="/beritaacara_reguler">
+                            <Link href="/berita_acara_reguler">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon
@@ -296,7 +296,7 @@ export default function Sidebar({ user, classname, auth }) {
                                     Kelas Reguler
                                 </ListItem>
                             </Link>
-                            <Link href="/beritaacara_pengawas">
+                            <Link href="/berita_acara_ujian">
                                 <ListItem className={listItemStyles}>
                                     <ListItemPrefix>
                                         <ChevronRightIcon

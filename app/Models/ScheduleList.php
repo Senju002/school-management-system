@@ -12,7 +12,7 @@ class ScheduleList extends Model
     protected $primaryKey = 'id';
     public $incrementing = false; 
     protected $keyType = 'string';
-    protected $fillable = ['id', 'lab_id', 'subject_id', 'user_id', 'class_id'];
+    protected $fillable = ['id', 'day', 'lab_id', 'subject_id', 'user_id', 'class_id'];
 
     // Define Relationships
     public function lab()

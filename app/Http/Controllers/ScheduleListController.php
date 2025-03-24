@@ -15,12 +15,17 @@ class ScheduleListController extends Controller
 {
     public function index()
     {
+        // Paginate the schedules with 7 items per page
+        $schedules = ScheduleList::with(['lab', 'subject', 'user', 'class'])
+            ->paginate(7); // 7 schedules per page
+
+        // Pass the paginated data to the view
         return Inertia::render('Schedule List/Index', [
-            'schedules' => ScheduleList::with(['lab', 'subject', 'user', 'class'])->get(),
-            'labs' => Laboratory::orderBy('created_at', 'asc')->get(),
-            'subjects' => SubjectList::orderBy('created_at', 'asc')->get(),
-            'users' => User::orderBy('created_at', 'asc')->get(),
-            'classes' => ClassList::orderBy('created_at', 'asc')->get(),
+            'schedules' => $schedules,
+            'labs' => Laboratory::all(),
+            'subjects' => SubjectList::all(),
+            'users' => User::all(),
+            'classes' => ClassList::all(),
         ]);
     }
 
@@ -31,6 +36,7 @@ class ScheduleListController extends Controller
             'subject_id' => 'required|exists:subject_lists,id',
             'user_id' => 'required|exists:users,id',
             'class_id' => 'required|exists:class_lists,id',
+            'day' => 'required|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
         ]);
 
         $prefix = 'SS'; // Prefix for Jenis Institusi
@@ -50,6 +56,7 @@ class ScheduleListController extends Controller
             'subject_id' => $request->subject_id,
             'user_id' => $request->user_id,
             'class_id' => $request->class_id,
+            'day' => $request->day, // Include the day field
         ]);
 
         return redirect()->route('schedule_lists.index')->with('success', 'Schedule assigned successfully!');
@@ -65,21 +72,21 @@ class ScheduleListController extends Controller
     {
         // Validate request data
         $request->validate([
-            'lab_id'   => 'required|exists:lab_computers,id',
+            'lab_id' => 'required|exists:lab_computers,id',
             'subject_id' => 'required|exists:subject_lists,id',
-            'user_id'       => 'required|exists:users,id',
-            'class_id'       => 'required|exists:class_lists,id',
+            'user_id' => 'required|exists:users,id',
+            'class_id' => 'required|exists:class_lists,id',
+            'day' => 'required|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
         ]);
 
-        // Find the record by ID
         $schedule = ScheduleList::findOrFail($id);
 
-        // Update the record
         $schedule->update([
-            'lab_id'       => $request->lab_id,
+            'lab_id' => $request->lab_id,
             'subject_id' => $request->subject_id,
-            'user_id'   => $request->user_id,
-            'class_id'   => $request->class_id,
+            'user_id' => $request->user_id,
+            'class_id' => $request->class_id,
+            'day' => $request->day,
         ]);
 
         return redirect()->route('schedule_lists.index')->with('success', 'Schedule updated successfully!');
@@ -95,5 +102,11 @@ class ScheduleListController extends Controller
 
         // Return a success response
         return redirect()->route('schedule_lists.index')->with('success', 'Schedule deleted successfully!');
+    }
+
+    public function filterByDay($day)
+    {
+        $schedules = ScheduleList::where('day', $day)->get();
+        return response()->json($schedules);
     }
 }

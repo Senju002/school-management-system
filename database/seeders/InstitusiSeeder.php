@@ -10,18 +10,30 @@ use App\Models\InstitutionList;
 class InstitusiSeeder extends Seeder {
     public function run() {
         // Insert Jenis Institusi
-        InstitutionType::create(['id' => 'J001', 'ins_type_name' => 'Sekolah Dasar']);
-        InstitutionType::create(['id' => 'J002', 'ins_type_name' => 'Sekolah Menengah Pertama']);
-        InstitutionType::create(['id' => 'J003', 'ins_type_name' => 'Sekolah Menengah Atas']);
+        for ($i = 1; $i <= 10; $i++) {
+            $id = 'J' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            InstitutionType::create([
+                'id' => $id,
+                'ins_type_name' => 'Sekolah Menengah Atas'
+            ]);
+        }
 
         // Insert Group Institusi
-        InstitutionGroup::create(['id' => 'G001', 'ins_group_name' => 'Sutomo']);
-        InstitutionGroup::create(['id' => 'G002', 'ins_group_name' => 'Methodist']);
-        InstitutionGroup::create(['id' => 'G003', 'ins_group_name' => 'Kalam Kudus']);
+        for ($i = 1; $i <= 3; $i++) {
+            $id = 'G' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            InstitutionGroup::create([
+                'id' => $id,
+                'ins_group_name' => 'Sutomo ' . $i,
+            ]);
+        }
 
-        // Insert Nama Institusi
-        InstitutionList::create(['id' => 'I001', 'ins_name' => 'SD Sutomo']);
-        InstitutionList::create(['id' => 'I002', 'ins_name' => 'SMP Sutomo']);
-        InstitutionList::create(['id' => 'I003', 'ins_name' => 'Methodist 1']);
+        // Insert InsitutionList
+        for ($i = 1; $i <= 3; $i++) {
+            $id = 'I' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            InstitutionList::create([
+                'id' => $id,
+                'ins_name' => 'Insitusi ' . $i,
+            ]);
+        }
     }
 }

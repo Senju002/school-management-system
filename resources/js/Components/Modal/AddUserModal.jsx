@@ -75,6 +75,20 @@ const fieldsConfig = {
         { key: "subject_name", label: "Subject Name" },
     ],
     Schedules: [
+        {
+            key: "day",
+            label: "Day",
+            type: "dropdown",
+            options: [
+                { value: "Sunday", label: "Sunday" },
+                { value: "Monday", label: "Monday" },
+                { value: "Tuesday", label: "Tuesday" },
+                { value: "Wednesday", label: "Wednesday" },
+                { value: "Thursday", label: "Thursday" },
+                { value: "Friday", label: "Friday" },
+                { value: "Saturday", label: "Saturday" },
+            ],
+        },
         { key: "lab_id", label: "Lab", type: "dropdown", source: "labs" },
         { key: "user_id", label: "User", type: "dropdown", source: "users" },
         {
@@ -161,16 +175,41 @@ const AddUserModal = ({
         [users, positions, institution_names, institution_types, subjects]
     );
 
-    const renderFormField = ({ key, label, type, source }) => {
+    const renderFormField = ({ key, label, type, source, options }) => {
         if (type === "dropdown") {
-            const options = dropdownOptions[source] || [];
+            // Handle static dropdown options (e.g., days of the week)
+            if (options) {
+                return (
+                    <Select
+                        options={options}
+                        value={options.find((option) => option.value === data[key]) || null}
+                        onChange={(selected) =>
+                            setData((prev) => ({ ...prev, [key]: selected.value }))
+                        }
+                        styles={customStyles}
+                        placeholder={`Select ${label}`}
+                        isSearchable
+                    />
+                );
+            }
+    
+            // Handle dynamic dropdown options (fetched from API)
+            const dropdownOptions = {
+                roles: roleOptions,
+                users: users.map(({ id, name }) => ({ value: id, label: name })),
+                labs: labs.map(({ id, lab_name }) => ({ value: id, label: lab_name })),
+                subjects: subjects.map(({ id, subject_name }) => ({ value: id, label: subject_name })),
+                classes: classes.map(({ id, class_name }) => ({ value: id, label: class_name })),
+                positions: positions.map(({ id, position_name }) => ({ value: id, label: position_name })),
+                institution_names: institution_names.map(({ id, ins_name }) => ({ value: id, label: ins_name })),
+                institution_types: institution_types.map(({ id, ins_type_name }) => ({ value: id, label: ins_type_name })),
+            };
+    
+            const optionsList = dropdownOptions[source] || [];
             return (
                 <Select
-                    options={options}
-                    value={
-                        options.find((option) => option.value === data[key]) ||
-                        null
-                    }
+                    options={optionsList}
+                    value={optionsList.find((option) => option.value === data[key]) || null}
                     onChange={(selected) =>
                         setData((prev) => ({ ...prev, [key]: selected.value }))
                     }
@@ -180,12 +219,12 @@ const AddUserModal = ({
                 />
             );
         }
-
+    
         // Handle password fields
         if (type === "password") {
             return (
                 <input
-                    type="password" // Use type="password" to censor the input
+                    type="password"
                     name={key}
                     value={data[key] || ""}
                     onChange={(e) =>
@@ -195,17 +234,17 @@ const AddUserModal = ({
                 />
             );
         }
-
+    
         // Default text input
         return (
             <input
-                type={type || "text"} // Use the specified type or default to "text"
+                type={type || "text"}
                 name={key}
                 value={data[key] || ""}
                 onChange={(e) =>
                     setData((prev) => ({ ...prev, [key]: e.target.value }))
                 }
-                disabled={label === "ID"} // Disable only if the key is "id"
+                disabled={label === "ID"}
                 className={`border rounded px-3 py-2 w-full ${
                     label === "ID" ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}

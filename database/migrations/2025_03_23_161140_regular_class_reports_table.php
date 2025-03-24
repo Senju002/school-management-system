@@ -13,7 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('regular_class_reports', function (Blueprint $table) {
+
+            $table->string('id')->primary();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('regular_class_reports');
     }
 };

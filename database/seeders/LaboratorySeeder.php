@@ -15,8 +15,14 @@ class LaboratorySeeder extends Seeder
      */
     public function run()
     {
-        Laboratory::create(['id' => 'L001','ins_id' => 'I001', 'lab_name' => 'Lab 1']);
-        Laboratory::create(['id' => 'L002','ins_id' => 'I002', 'lab_name' => 'Lab 2']);
-        Laboratory::create(['id' => 'L003','ins_id' => 'I003', 'lab_name' => 'Lab 3']);
+        for ($i = 1; $i <= 3; $i++) {
+            $id = 'L' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $ins_id = 'I' . str_pad($i, 3, '0',  STR_PAD_LEFT);
+            Laboratory::create([
+                'id' => $id,
+                'ins_id' => $ins_id,
+                'lab_name' => 'Lab ' . $i,
+            ]);
+        }
     }
 }

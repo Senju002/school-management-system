@@ -5,18 +5,30 @@ namespace Database\Seeders;
 use App\Models\ScheduleList;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class ScheduleListSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        ScheduleList::create(['id' => 'SS001','lab_id' => 'L001', 'subject_id' => 'S001', 'user_id' => '1', 'class_id' => 'C001']);
-        ScheduleList::create(['id' => 'SS002','lab_id' => 'L002', 'subject_id' => 'S002', 'user_id' => '2', 'class_id' => 'C002']);
-        ScheduleList::create(['id' => 'SS003','lab_id' => 'L003', 'subject_id' => 'S003', 'user_id' => '3', 'class_id' => 'C003']);
+        $faker = Faker::create();
+        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+        for ($i = 1; $i <= 3; $i++) { // Create 10 schedules with random days
+            $id = 'SS' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $labId = 'L' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $subjectId = 'S' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $classId = 'C' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $day = $faker->randomElement($days);
+
+            ScheduleList::create([
+                'id' => $id,
+                'lab_id' => $labId,
+                'subject_id' => $subjectId,
+                'user_id' => $i,
+                'class_id' => $classId,
+                'day' => $day,
+            ]);
+        }
     }
 }

@@ -115,6 +115,7 @@ Route::middleware(['auth', 'verified', 'role:KOORDINATOR'])->group(function () {
     Route::get('/schedule_lists/{id}/edit', [ScheduleListController::class, 'edit'])->name('schedule_lists.edit');
     Route::put('/schedule_lists/{id}', [ScheduleListController::class, 'update'])->name('schedule_lists.update');
     Route::delete('/schedule_lists/{id}', [ScheduleListController::class, 'destroy'])->name('schedule_lists.destroy');
+    Route::get('/schedule_lists/filter/{day}', [ScheduleListController::class, 'filterByDay']);
 });
 
 Route::middleware('auth')->group(function () {

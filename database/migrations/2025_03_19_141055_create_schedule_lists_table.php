@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('schedule_lists', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('day');
+
             $table->string('lab_id');
             $table->string('subject_id');
             $table->unsignedBigInteger('user_id');

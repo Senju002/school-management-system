@@ -73,7 +73,6 @@ export default function Laboratorium({ laboratorium,institutions, institutions_n
             },
         });
     };
-    
 
     // Handle Delete button click
     const handleDelete = (id) => {

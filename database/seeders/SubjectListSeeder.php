@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\SubjectList;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
 
 class SubjectListSeeder extends Seeder
 {
@@ -15,8 +16,18 @@ class SubjectListSeeder extends Seeder
      */
     public function run()
     {
-        SubjectList::create(['id' => 'S001','ins_id' => 'I001', 'subject_name' => 'Math']);
-        SubjectList::create(['id' => 'S002','ins_id' => 'I001', 'subject_name' => 'History']);
-        SubjectList::create(['id' => 'S003','ins_id' => 'I001', 'subject_name' => 'Physics']);
+        $faker = Faker::create();
+        $subjecs = ['Math', 'Physics', 'History', 'Chems', 'Science', 'English'];
+        for ($i = 1; $i <= 3; $i++) {
+            $id = 'S' . str_pad($i, 3, '0', STR_PAD_LEFT);
+            $ins_id = 'I' . str_pad($i, 3, '0',  STR_PAD_LEFT);
+            $subject = $faker->randomElement($subjecs);
+
+            SubjectList::create([
+                'id' => $id,
+                'ins_id' => $ins_id,
+                'subject_name' => $subject
+            ]);
+        }
     }
 }

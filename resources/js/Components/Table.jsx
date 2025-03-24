@@ -22,7 +22,7 @@ const Table = ({ title, data, onAddClick, onEditClick, handleDelete }) => {
     ) {
         columns = columns.slice(0, 2);
     } else if (title === "Schedules") {
-        columns = columns.slice(1, 5);
+        columns = columns.slice(1, 6);
     } else {
         columns = columns.slice(0, 3);
     }

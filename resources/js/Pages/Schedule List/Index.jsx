@@ -6,9 +6,11 @@ import AddUserModal from "@/Components/Modal/AddUserModal";
 import Filter from "@/Components/Filter";
 import { useState, useMemo, useEffect } from "react";
 import Swal from "sweetalert2";
+import useFilter from "@/hooks/useFilter";
+import { createFilterOptions } from "@/utils/filterHelpers";
 
 export default function ScheduleList({
-    schedules, // Paginated schedules data passed from the controller
+    schedules,
     labs,
     subjects,
     users,
@@ -18,18 +20,48 @@ export default function ScheduleList({
 }) {
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [selectedDay, setSelectedDay] = useState(""); // State for selected day
-    const [filteredSchedules, setFilteredSchedules] = useState(schedules.data); // State for filtered schedules
-    const [selectedLab, setSelectedLab] = useState(""); // State for selected lab
-    const [selectedClass, setSelectedClass] = useState(""); // State for selected class
 
     const { data, setData, post, put, processing, reset } = useForm({
         lab_id: "",
         subject_id: "",
         user_id: "",
         class_id: "",
-        day: "", // Add day field to the form
+        day: "",
     });
+
+    // Use the custom filter hook
+    const { 
+        filteredData: filteredSchedules, 
+        handleFilterChange 
+    } = useFilter(schedules.data, ["day", "lab", "class"]);
+
+    // Filter configuration
+    const filterConfig = useMemo(() => [
+        {
+            id: 'day',
+            label: 'Day',
+            options: [
+                { value: "", label: "All Days" },
+                { value: "Sunday", label: "Sunday" },
+                { value: "Monday", label: "Monday" },
+                { value: "Tuesday", label: "Tuesday" },
+                { value: "Wednesday", label: "Wednesday" },
+                { value: "Thursday", label: "Thursday" },
+                { value: "Friday", label: "Friday" },
+                { value: "Saturday", label: "Saturday" },
+            ],
+        },
+        {
+            id: 'lab',
+            label: 'Lab',
+            options: createFilterOptions(labs, "id", "lab_name", "Labs"),
+        },
+        {
+            id: 'class',
+            label: 'Class',
+            options: createFilterOptions(classes, "id", "class_name", "Classes"),
+        }
+    ], [labs, classes]);
 
     // Function to find an ID based on a name
     const getIdByName = (list, key, value) => {
@@ -37,7 +69,7 @@ export default function ScheduleList({
     };
 
     const handleAddClick = () => {
-        reset(); // Instead of manually resetting each field
+        reset();
         setShowModal(true);
         setIsEditMode(false);
     };
@@ -51,23 +83,20 @@ export default function ScheduleList({
             subject_id: getIdByName(subjects, "subject_name", rowData.subject),
             user_id: getIdByName(users, "name", rowData.user),
             class_id: getIdByName(classes, "class_name", rowData.class),
-            day: rowData.day || "", // Add day field for editing
+            day: rowData.day || "",
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const method = isEditMode ? "put" : "post";
         const routeName = isEditMode
             ? route("schedule_lists.update", { id: data.id })
             : route("schedule_lists.store");
 
-        // Remove ID field for new inserts
         const payload = { ...data };
         if (!isEditMode) delete payload.id;
 
-        // Send request
         router[method](routeName, payload, {
             onSuccess: () => {
                 reset();
@@ -75,9 +104,7 @@ export default function ScheduleList({
                 Swal.fire({
                     icon: "success",
                     title: isEditMode ? "Updated!" : "Assigned!",
-                    text: `Schedule ${
-                        isEditMode ? "updated" : "assigned"
-                    } successfully!`,
+                    text: `Schedule ${isEditMode ? "updated" : "assigned"} successfully!`,
                 });
             },
             onError: (error) => {
@@ -103,62 +130,31 @@ export default function ScheduleList({
             if (result.isConfirmed) {
                 router.delete(route("schedule_lists.destroy", { id }), {
                     onSuccess: () => {
-                        Swal.fire(
-                            "Deleted!",
-                            "Schedule has been deleted.",
-                            "success"
-                        );
+                        Swal.fire("Deleted!", "Schedule has been deleted.", "success");
                     },
                     onError: () => {
-                        Swal.fire(
-                            "Error!",
-                            "Failed to delete schedule.",
-                            "error"
-                        );
+                        Swal.fire("Error!", "Failed to delete schedule.", "error");
                     },
                 });
             }
         });
     };
 
-    // Filter schedules based on selected day
-    useEffect(() => {
-        let filtered = schedules.data;
-
-        if (selectedDay) {
-            filtered = filtered.filter(
-                (schedule) => schedule.day === selectedDay
-            );
-        }
-        if (selectedLab) {
-            filtered = filtered.filter(
-                (schedule) => schedule.lab_id === selectedLab
-            );
-        }
-        if (selectedClass) {
-            filtered = filtered.filter(
-                (schedule) => schedule.class_id === selectedClass
-            );
-        }
-
-        setFilteredSchedules(filtered);
-    }, [selectedDay, selectedLab, selectedClass, schedules.data]);
-
-    // Memoized transformation of filtered schedules data
+    // Table data transformation
     const tableData = useMemo(() => {
         return filteredSchedules.map((item) => ({
             id: item.id,
-            lab: item.lab?.lab_name || "Unknown",
-            subject: item.subject?.subject_name || "Unknown",
-            user: item.user?.name || "Unknown",
-            class: item.class?.class_name || "Unknown",
-            day: item.day || "Unknown", // Add day to the table data
+            lab: item.lab?.lab_name || "Unassigned",
+            subject: item.subject?.subject_name || "Unassigned",
+            user: item.user?.name || "Unassigned",
+            class: item.class?.class_name || "Unassigned",
+            day: item.day || "Unassigned",
         }));
     }, [filteredSchedules]);
 
     // Pagination navigation
     const handlePageChange = (url) => {
-        router.visit(url); // Navigate to the selected page
+        router.visit(url);
     };
 
     return (
@@ -166,19 +162,12 @@ export default function ScheduleList({
             <Head title="Schedule List" />
             <Header title="Schedule List" />
             <div className="w-full px-4 mt-8">
-                {/* Filter Component */}
                 <Filter
-                    selectedDay={selectedDay}
-                    setSelectedDay={setSelectedDay}
-                    selectedLab={selectedLab}
-                    setSelectedLab={setSelectedLab}
-                    selectedClass={selectedClass}
-                    setSelectedClass={setSelectedClass}
-                    labs={labs}
-                    classes={classes}
+                    title="Filter Schedules"
+                    filters={filterConfig}
+                    onFilterChange={handleFilterChange}
                 />
 
-                {/* Table */}
                 <Table
                     title="Schedules"
                     data={tableData}
@@ -190,26 +179,18 @@ export default function ScheduleList({
                 {/* Pagination Controls */}
                 <div className="flex justify-between items-center mt-4">
                     <div className="text-sm text-gray-700">
-                        Showing {schedules.from} to {schedules.to} of{" "}
-                        {schedules.total} entries
+                        Showing {schedules.from} to {schedules.to} of {schedules.total} entries
                     </div>
                     <div className="flex gap-2">
-                        {/* Previous Page Button */}
                         <button
-                            onClick={() =>
-                                handlePageChange(schedules.prev_page_url)
-                            }
+                            onClick={() => handlePageChange(schedules.prev_page_url)}
                             disabled={!schedules.prev_page_url}
                             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50"
                         >
                             Previous
                         </button>
-
-                        {/* Next Page Button */}
                         <button
-                            onClick={() =>
-                                handlePageChange(schedules.next_page_url)
-                            }
+                            onClick={() => handlePageChange(schedules.next_page_url)}
                             disabled={!schedules.next_page_url}
                             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition disabled:opacity-50"
                         >
@@ -218,7 +199,6 @@ export default function ScheduleList({
                     </div>
                 </div>
 
-                {/* Add/Edit Modal */}
                 {showModal && (
                     <AddUserModal
                         showModal={showModal}

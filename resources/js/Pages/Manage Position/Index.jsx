@@ -6,6 +6,8 @@ import AddUserModal from "@/Components/Modal/AddUserModal";
 import { useState, useMemo, useEffect } from "react";
 import Swal from "sweetalert2";
 import Filter from "@/Components/Filter";
+import useFilter from "../../hooks/useFilter";
+import { createFilterOptions } from "@/utils/filterHelpers";
 
 export default function AssignRoles({
     users,
@@ -17,10 +19,6 @@ export default function AssignRoles({
 }) {
     const [showModal, setShowModal] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [filteredAssignments, setFilteredAssignments] = useState(assignments);
-    const [selectedPosition, setSelectedPosition] = useState("");
-    const [selectedInstitution, setSelectedInstitution] = useState("");
-    const [selectedUser, setSelectedUser] = useState("");
 
     const { data, setData, post, put, processing, reset } = useForm({
         user_id: "",
@@ -28,86 +26,40 @@ export default function AssignRoles({
         institution_id: "",
     });
 
-    const handleFilterChange = (filterId, value) => {
-        switch (filterId) {
-            case "position":
-                setSelectedPosition(value);
-                break;
-            case "institution":
-                setSelectedInstitution(value);
-                break;
-            case "user":
-                setSelectedUser(value);
-                break;
-            default:
-                break;
-        }
-    };
+    const { 
+        filteredData: filteredAssignments, 
+        filters,  // Now available from useFilter
+        handleFilterChange 
+    } = useFilter(assignments, ["position", "institution", "user"]);
+    
 
-    useEffect(() => {
-        let filtered = assignments;
-
-        if (selectedPosition) {
-            filtered = filtered.filter(
-                (assignment) => assignment.position_id === selectedPosition
-            );
-        }
-        if (selectedInstitution) {
-            filtered = filtered.filter(
-                (assignment) =>
-                    assignment.institution_id === selectedInstitution
-            );
-        }
-        if (selectedUser) {
-            filtered = filtered.filter(
-                (assignment) => assignment.user_id === selectedUser
-            );
-        }
-
-        setFilteredAssignments(filtered);
-    }, [selectedPosition, selectedInstitution, selectedUser, assignments]);
-
-    const filterConfig = [
-        {
-            id: "position",
-            label: "Position",
-            options: [
-                { value: "", label: "All Positions" },
-                ...positions.map((position) => ({
-                    value: position.id,
-                    label: position.position_name,
-                })),
-            ],
-            selectedValue: selectedPosition,
-            placeholder: "Select Position",
-        },
-        {
-            id: "institution",
-            label: "Institution",
-            options: [
-                { value: "", label: "All Institutions" },
-                ...institution_names.map((institution) => ({
-                    value: institution.id,
-                    label: institution.ins_name,
-                })),
-            ],
-            selectedValue: selectedInstitution,
-            placeholder: "Select Institution",
-        },
-        {
-            id: "user",
-            label: "User",
-            options: [
-                { value: "", label: "All Users" },
-                ...users.map((user) => ({
-                    value: user.id,
-                    label: user.name,
-                })),
-            ],
-            selectedValue: selectedUser,
-            placeholder: "Select User",
-        },
-    ];
+    const filterConfig = useMemo(
+        () => [
+            {
+                id: "position",
+                label: "Position",
+                options: createFilterOptions(positions, "id", "position_name"),
+                selectedValue: filters.position, // Use the filters from useFilter
+            },
+            {
+                id: "institution",
+                label: "Institution",
+                options: createFilterOptions(
+                    institution_names,
+                    "id",
+                    "ins_name"
+                ),
+                selectedValue: filters.institution,
+            },
+            {
+                id: "user",
+                label: "User",
+                options: createFilterOptions(users, "id", "name"),
+                selectedValue: filters.user,
+            },
+        ],
+        [positions, institution_names, users, filters]
+    ); // Add filters to dependencies
 
     // Function to find an ID based on a name
     const getIdByName = (list, key, value) => {
@@ -205,15 +157,16 @@ export default function AssignRoles({
         });
     };
 
-    // Memoized transformation of assignments data
-    const tableData = useMemo(() => {
-        return filteredAssignments.map((item) => ({
-            id: item.id,
-            user: item.user?.name || "Unknown",
-            position: item.position?.position_name || "Unknown",
-            institution: item.institution?.ins_name || "Unknown",
-        }));
-    }, [filteredAssignments]);
+    const tableData = useMemo(
+        () =>
+            filteredAssignments.map((item) => ({
+                id: item.id,
+                user: item.user?.name || "Unassigned",
+                position: item.position?.position_name || "Unassigned",
+                institution: item.institution?.ins_name || "Unassigned",
+            })),
+        [filteredAssignments]
+    );
     return (
         <AuthenticatedLayout auth={auth} errors={errors}>
             <Head title="Assign Roles" />
